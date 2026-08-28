@@ -281,7 +281,61 @@ Two layers, because neither is sufficient alone.
 Evidence that ships is curated by hand into `docs/evidence/` with synthetic
 personas, because raw traces contain conversation content.
 
-## 12. Out of scope for this spec
+## 12. Deployment and access
+
+The agent's user is Ronald, so this is an internal queue tool, not a public
+site. The L1 assistant was public because *visitors* were its users; inheriting
+that decision here would be a category error, and it would put the approval gate
+in an absurd place — anyone who found the URL could authorise an email to a
+customer.
+
+**The app is not published openly.** Access is controlled by a shared secret
+held in the hosting platform's secret store, compared with
+`hmac.compare_digest`, with only a boolean kept in session state. It is never in
+the repository, never in a screenshot, and never in the client slide — the L1
+submission lost a point for a password pasted in plain text into a deck, and
+that is a cheap mistake to not make twice.
+
+### 12.1 Two gates, not one
+
+Conflating these is the design error worth naming in advance.
+
+| | Question it answers | Evidence it produces |
+|---|---|---|
+| **Access control** | Can you open this application at all? | None. It is a door. |
+| **Approval gate** (§5) | Did a person authorise *this specific action*? | A record in state: who, when, what was approved, whether it was edited first. |
+
+S2 — no irreversible action without a recorded human approval — is evidenced by
+**the second**, not the first. "The user was logged in" is not an authorisation
+record. Getting through the door must not imply consent to anything that happens
+after it.
+
+### 12.2 Protecting a metered budget
+
+The Portkey key meters a company allowance (§8), which changes what a loose
+deployment costs. Three constraints follow:
+
+- Rate limiting is mandatory from the first deploy, not deferred.
+- A hard cap on model calls per lead, enforced in the graph, so a pathological
+  loop cannot drain the allowance before a human notices.
+- The app never processes a lead on page load. Work starts when a person asks
+  for it.
+
+Using a company-issued gateway key from third-party hosting is a governance
+question rather than a technical one, and it is recorded here as a decision for
+the project owner to confirm with their line manager — the same path that
+handles budget resets.
+
+### 12.3 The graded demo does not depend on the app being up
+
+Free-tier apps sleep. The L1 evaluator reached a sleeping app and got a 303, and
+the submission carried that cost for something unrelated to the work.
+
+The demo required by the checklist is therefore a **recording** of a normal run
+and a handled failure. The live deployment exists for Ronald, not for grading,
+so app availability cannot damage the submission.
+
+## 13. Out of scope for this spec
 
 Streaming, multi-tenant support, a queue runner over many leads at once, an
 inbound-reply parser, and any abstraction over the model provider beyond what
