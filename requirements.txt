@@ -1,0 +1,29 @@
+# Orquestación del agente
+langgraph>=0.2
+langgraph-checkpoint-sqlite>=2.0
+
+# Pasarela de modelos. Cliente compatible OpenAI apuntando al gateway de
+# Perficient, con las cabeceras de Portkey. Ver 03_spec.md §8.
+langchain-openai>=0.2
+portkey-ai>=1.9
+
+# Núcleo
+pydantic>=2.7
+pydantic-settings>=2.3
+python-dotenv>=1.0
+
+# Recuperación sobre el índice heredado. fastembed corre en CPU: no se llama
+# a ninguna API de embeddings, ni al construir ni al consultar.
+numpy>=1.26
+fastembed>=0.4
+
+# Calendario
+google-api-python-client>=2.140
+google-auth-oauthlib>=1.2
+
+# Interfaz
+streamlit>=1.37
+
+# Desarrollo
+pytest>=8.2
+pytest-asyncio>=0.24

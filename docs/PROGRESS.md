@@ -101,12 +101,19 @@ only.
   `02` §2.4. Not taken up yet.
 - **SMTP account for the email tool.** Reuse of the L1 test mailbox is assumed
   but not confirmed; it must not be Ronald's address.
-- **Company key on third-party hosting.** Using the Portkey key from Streamlit
-  Cloud is a governance call for the project owner and their line manager, not a
-  technical one (`03` §12.2). The app itself is access-controlled either way.
+(none blocking.)
 
 ## Closed since the handoff
 
+- **The gateway key in the hosting secret store** — decided: same mechanism the
+  L1 deployment used and the same one the setup guide recommends over committing
+  a `.env`. The guide also permits personal accounts for learning-path purposes,
+  drawing its prohibition at Perficient codebases and Perficient clients, and
+  this is neither. The difference from L1 is whose credential it is, which the
+  safeguards already specified cover: access control on the app, rate limiting
+  from the first deploy, a hard cap on model calls per lead, and a $50 ceiling
+  that bounds the worst case by construction. A scoped virtual key is preferred
+  if the workspace offers one.
 - **How the human gate is protected in the UI** — answered in `03` §12: an
   access-control secret in the platform store, kept structurally separate from
   the approval record that actually evidences S2.

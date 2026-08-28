@@ -47,3 +47,6 @@ docs/RGWallcovering_L2_LeadAgent_HANDOFF.md
 # El set de evaluacion son personas sinteticas y ES la evidencia: vive en
 # eval/ y SI se versiona. La regla de arriba protege data/, donde viven los
 # leads reales de runtime. No ampliar esa regla a un "leads*.jsonl" global.
+
+# Entorno virtual
+.venv/
