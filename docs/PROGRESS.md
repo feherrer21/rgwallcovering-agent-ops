@@ -27,7 +27,10 @@ code.
 | `d332678` | Scaffolding — `agente/`, `config.py`, `.env.example` |
 | `ffc097d` | Phase 1: the corpus tool, 19 tests passing |
 | `2f00953` | Catalog check script |
-| _this_ | Gateway live, models resolved, first measured finding |
+| `6c9041e` | Gateway live, models resolved, first measured finding |
+| `1fdedb7` | SMTP inherited and verified; Calendar authorisation script |
+| `e3a4930` | Why the Calendar client is Desktop |
+| _this_ | Calendar authorised, dedicated calendar seeded |
 
 ## Submission checklist coverage
 
@@ -78,12 +81,19 @@ recorded in `docs/evidence/00_query_formulation.md`.
 
 Ordered by what stops work soonest.
 
-1. **Google Cloud project with Calendar API + OAuth refresh token** — requires
-   manual authorisation by Fabián in a browser; Claude Code cannot do this step.
-   Blocks the calendar tool and lead `L19`.
-2. **Synthetic events seeded in the test calendar** — without a busy calendar,
-   `leer_calendario` has nothing to reason about and the scheduling path is
-   untested. Same synthetic-persona discipline as the lead set.
+None blocking. Everything the build needs is in place: the gateway is live with
+both models resolved, SMTP authenticates, and Calendar is authorised against a
+**dedicated** calendar seeded with a synthetic agenda.
+
+Two dated reminders rather than blockers:
+
+1. **Re-authorise Calendar before any demo.** The consent screen is in Testing,
+   where Google expires refresh tokens after seven days. One command:
+   `scripts/autorizar_calendario.py`. A token minted weeks earlier and assumed
+   to work is how a working system looks broken in front of a client.
+2. **`primary` is off limits, permanently.** It holds real appointments, six of
+   them with real third-party attendees who never consented to their details
+   passing through an AI gateway. The agent reads only the dedicated calendar.
 
 **Budget:** $50 USD across the whole learning path, metered by Portkey. A reset
 needs a support ticket with line-manager approval, so iteration runs on the
