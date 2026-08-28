@@ -21,6 +21,9 @@ code.
 | `f736789` | `01_problem_statement.md` |
 | `8a904a9` | `02_data_provenance.md` + the 20-lead evaluation set |
 | `6dce51c` | `03_spec.md` — the graph |
+| `a1d2ae4` | Model routing corrected against Perficient policy |
+| `902f772` | Deployment and access control |
+| _this_ | `04_plan.md` + `05_tasks.md` |
 
 ## Submission checklist coverage
 
@@ -98,6 +101,20 @@ only.
   `02` §2.4. Not taken up yet.
 - **SMTP account for the email tool.** Reuse of the L1 test mailbox is assumed
   but not confirmed; it must not be Ronald's address.
+- **Company key on third-party hosting.** Using the Portkey key from Streamlit
+  Cloud is a governance call for the project owner and their line manager, not a
+  technical one (`03` §12.2). The app itself is access-controlled either way.
+
+## Closed since the handoff
+
+- **How the human gate is protected in the UI** — answered in `03` §12: an
+  access-control secret in the platform store, kept structurally separate from
+  the approval record that actually evidences S2.
+- **Which model, via Portkey** — answered in `03` §8, and the choice turned out
+  to be constrained by policy rather than free.
+- **Local project location and repo name** — `rgwallcovering-agent-ops`, its own
+  git history, pushed to a separate GitHub repository.
+- **Adversarial lead design and what is held back** — `02` §2.2–§2.4.
 
 ## Effort log
 
