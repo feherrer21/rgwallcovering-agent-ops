@@ -70,15 +70,25 @@ has started.
 
 Ordered by what stops work soonest.
 
-1. **Gemini API key** — needed before any graph run. Free tier, no card.
-2. **Portkey API key / workspace** — licensed by the employer. Needed from the
-   first run so the cost comparison is measured rather than reconstructed.
+1. **Portkey API key** — blocks every model call. Perficient policy prohibits
+   personal provider keys for coursework, so there is no fallback to develop
+   against while waiting. Access is SSO-provisioned on learning-path enrolment
+   and processed weekly, so if it is not live yet the wait is until the
+   following Monday. Reach it via myapplications.microsoft.com → Portkey.
+2. **Model catalog slugs** — resolved, not guessed, once the key exists:
+   `curl https://portkeygateway.perficient.com/v1/models -H "x-portkey-api-key: $PORTKEY_API_KEY"`.
+   Determines which cheap and frontier models §8 of `03` actually names.
 3. **Google Cloud project with Calendar API + OAuth refresh token** — requires
-   manual authorisation by Fabián; Claude Code cannot do this step. Blocks the
-   calendar tool and lead `L19`.
+   manual authorisation by Fabián in a browser; Claude Code cannot do this step.
+   Blocks the calendar tool and lead `L19`.
 4. **Synthetic events seeded in the test calendar** — without a busy calendar,
    `leer_calendario` has nothing to reason about and the scheduling path is
    untested. Same synthetic-persona discipline as the lead set.
+
+**Budget:** $50 USD across the whole learning path, metered by Portkey. A reset
+needs a support ticket with line-manager approval, so iteration runs on the
+cheapest capable model and the frontier model is spent on the comparison run
+only.
 
 ## Open decisions
 

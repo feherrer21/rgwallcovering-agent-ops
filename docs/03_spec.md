@@ -183,30 +183,49 @@ already sent to a customer. **Recorded here rather than discovered later.**
 
 ## 8. Model routing
 
+Not a free choice. Perficient policy is that employees route coursework through
+the company gateway and **do not use personal provider API keys**
+(*Dev Environment Setup Guide v2.0* §2 and §4.2.1). That settles the gateway
+question and replaces the cost calculus a personal free tier would have had.
+
 | | Choice |
 |---|---|
-| Gateway | **Portkey**, all calls, from the first day of building — not only for the final runs. Licensed by the employer, so log volume is not a constraint. |
-| Build and iterate | **Gemini 2.5 Flash** (free tier). Iteration is where spend accumulates: dozens of debugging runs of the graph. |
-| Cheap paths | **Gemini 2.5 Flash-Lite** — higher daily quota, used for the deterministic baseline and low-stakes validation. |
-| Final comparison | One evaluation run on **Claude Opus 5** against the same set, reported side by side with Flash on cost, latency and criteria. |
+| Gateway | **Portkey**, `https://portkeygateway.perficient.com/v1`, every call from the first day of building — not only the final runs. Access is SSO-provisioned on learning-path enrolment. |
+| Budget | **$50 USD per consultant, across the whole learning path.** A reset requires a support ticket with line-manager approval, so this is a real constraint rather than a formality. |
+| Build and iterate | The cheapest capable model in the workspace catalog. Iteration is where spend accumulates — dozens of debugging runs of the graph — and it is the spend that buys the least evidence. |
+| Final comparison | One evaluation run on a frontier model against the same set, reported side by side on cost, latency and the S1–S6 criteria. |
+| Client | `langchain_openai.ChatOpenAI` pointed at the gateway with `portkey_ai.createHeaders(...)`, per the guide's own LangGraph example. One client; the provider is a header, not a code path. |
 
-The comparison is not a luxury: it satisfies "route model calls through Portkey
-so cost and latency are observable", "justify the framework choice against at
-least one alternative you rejected", and the evidence standard's demand for a
-measured number — with one run.
+Model identifiers are workspace-catalog specific — the guide's own examples are
+`us.anthropic.claude-haiku-4-5-20251001-v1:0` and `@azure-openai-eus2/gpt-5.4`
+— so the exact slugs are resolved against the live catalog rather than guessed:
+
+```
+curl https://portkeygateway.perficient.com/v1/models \
+     -H "x-portkey-api-key: $PORTKEY_API_KEY"
+```
+
+The two-model comparison is not a luxury: it satisfies "route model calls
+through Portkey so cost and latency are observable", "justify the framework
+choice against at least one alternative you rejected", and the evidence
+standard's demand for a measured number — with one extra run. The gateway is
+metering a genuinely capped budget, which makes the cost figure a real number
+rather than a dashboard curiosity.
 
 **The interesting outcome is S3.** Detecting that free prose contradicts a
-tier-A passage is the hardest thing asked of the model. If Flash fails it and
-Opus passes, the finding is a measured architectural result — possibly "Flash
-everywhere except the contradiction check". If Flash passes, the work was done
-for free and that is the business-impact line in the reflection. Both outcomes
-are reportable; neither is assumed.
+tier-A passage is the hardest thing asked of the model. If the cheap model fails
+it and the frontier model passes, the finding is a measured architectural result
+— possibly "cheap model everywhere except the contradiction check". If the cheap
+model passes, the work was done at negligible cost and that is the
+business-impact line in the reflection. Both outcomes are reportable; neither is
+assumed.
 
-**Production gap, named now:** the Gemini free tier permits the provider to use
-prompts and outputs for product and model improvement, including human review.
-That is why synthetic substitution is enforced at the data layer
-(`02_data_provenance.md` §3.2) rather than at publication. Real customer leads
-require a paid tier before this system processes a single one.
+**Production gap, named now:** this gateway is a coursework facility on a capped
+personal allowance, not production infrastructure. Two things must change before
+the system touches a real customer enquiry — billing moves off an individual
+learning budget, and the data-handling terms of the providers behind the gateway
+are verified rather than assumed. Until both hold, only synthetic personas enter
+a prompt (`02_data_provenance.md` §3.2).
 
 ## 9. Framework choice, and what was rejected
 

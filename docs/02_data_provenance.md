@@ -211,11 +211,12 @@ distinct people**. They contain names, email, a phone number, and in one case a
   replaced with a non-routable one. `L01 Ana Ruiz` is already a synthetic
   persona from the L1 evaluation runs and is kept as is.
 - **This is a pipeline rule, not a publication rule**, and the reason is
-  specific. Model calls route to a provider whose free tier permits the provider
-  to use prompts and outputs for product and model improvement, including human
-  review. Real lead PII must therefore never be in a prompt. See
-  `03_spec.md` for the model routing decision and the production gap this
-  creates.
+  specific. Model calls leave this machine through an employer-managed gateway
+  to third-party providers whose data-handling terms this project has not
+  verified and does not control. Real customer PII does not belong in a
+  coursework prompt on that basis alone — the standard is what can be
+  established, not what is probably fine. See `03_spec.md` §8 for the routing
+  decision and the production gap it names.
 - **Not committed.** `data/leads*.jsonl` is in `.gitignore` from the first
   commit of this repository, before any lead could exist here. The evaluation
   set lives under `eval/` precisely so that the ignore rule protecting real
@@ -245,4 +246,4 @@ republish.
 | What does it represent? | What RG Wallcovering published about itself as of 2026-08-12, with one owner correction on 2026-08-14; and a stated model of the enquiries that arrive in the owner's inbox. |
 | What does it *not* represent? | Any observed follow-up behaviour, conversion history, or queue. Any fact about price, availability or coverage newer than August 2026. Anything about how Ronald actually triages, as opposed to how he said he would. |
 | Does it contain cases the solution gets wrong? | By construction. Sixteen of twenty are awkward on a named axis, six are held out, and two of those six belong to categories absent from the design set. §2.3 names each one and what it attacks. |
-| How was anything sensitive handled? | Real leads never enter the pipeline; synthetic stand-ins preserve the difficulty and drop the identity. Real records gitignored from the first commit, never logged. All contact details non-routable by construction. The substitution is enforced at the data layer because the model provider's free tier may train on prompts. |
+| How was anything sensitive handled? | Real leads never enter the pipeline; synthetic stand-ins preserve the difficulty and drop the identity. Real records gitignored from the first commit, never logged. All contact details non-routable by construction. The substitution is enforced at the data layer, not at publication, because prompts leave the machine through a gateway to providers whose data terms this project cannot verify. |
