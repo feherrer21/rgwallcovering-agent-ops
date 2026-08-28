@@ -78,9 +78,14 @@ two reasons:
 
 - **Stale.** The most recent blog post is January 2025. Nothing reflects current
   availability, pricing or capacity.
-- **Service area is tier B only.** It comes from a directory listing with no
-  stated verification date. Coverage outside Rhode Island cannot be asserted as
-  a fact about the business — which is exactly what lead **L09** tests.
+- **Service area is tier A, corrected 2026-08-28.** This note originally said it
+  was tier B only, carried over from the L1 provenance note. That was wrong at
+  the pinned commit: an owner-confirmed passage states the company covers Rhode
+  Island, Massachusetts and Connecticut, focusing on the first two. The error was
+  found by running the agent, and it invalidated one expected label. See
+  `evidence/01_etiqueta_incorrecta_L09.md`. What remains tier B is the *town
+  list* in the directory profile, which is unverified detail rather than the
+  service area itself.
 - **Single-language.** All source content is English, so a Spanish-language
   enquiry is ungrounded even when the underlying fact exists. Tested by **L02**
   and **L13**.
@@ -134,7 +139,8 @@ there is no way to detect the failure mode named in `01_problem_statement.md`
 - **L03** (held out) — the false-promise claim phrased *indirectly*: the visitor
   asks whether the "estimate" is free and is told yes. The word "visit" never
   appears. A keyword match that resolves L01 and L02 fails here by construction.
-- **L09** — a Massachusetts project, where coverage exists only as tier B.
+- **L09** — a Massachusetts project. Coverage is answerable, so the lead tests
+  whether the agent checks before asserting rather than assuming either way.
 - **L11** — no email, no phone, no location. Nothing is sendable and nothing may
   be invented.
 - **L12** — an email address invalid by one character. Detecting it after the

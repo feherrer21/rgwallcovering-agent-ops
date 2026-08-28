@@ -56,7 +56,55 @@ BUSCAR_CORPUS = {
     },
 }
 
+PROPONER_SIGUIENTE_ACCION = {
+    "type": "function",
+    "function": {
+        "name": "proponer_siguiente_accion",
+        "description": (
+            "Declares the one action that should happen next for this lead. "
+            "Call this when you have decided — after any searching you needed "
+            "to do, not before. Nothing you propose is executed: Ronald "
+            "approves every outbound action first."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "accion": {
+                    "type": "string",
+                    "enum": [
+                        "preparar_correo_visita",
+                        "preparar_correo_pregunta",
+                        "proponer_horario",
+                        "escalar_a_ronald",
+                    ],
+                    "description": "The single next action.",
+                },
+                "motivo": {
+                    "type": "string",
+                    "description": (
+                        "Why this action and not another, in two or three "
+                        "sentences addressed to Ronald. Name what actually "
+                        "blocks this enquiry. If you found a claim in the "
+                        "record that the corpus contradicts, say so here and "
+                        "quote both sides — that is the most important thing "
+                        "you can tell him."
+                    ),
+                },
+                "contradiccion_detectada": {
+                    "type": "boolean",
+                    "description": (
+                        "True if the record contains a claim about the "
+                        "business that the corpus contradicts."
+                    ),
+                },
+            },
+            "required": ["accion", "motivo"],
+        },
+    },
+}
+
 TOOLS_LECTURA = [BUSCAR_CORPUS]
+TOOLS_DECISION = [BUSCAR_CORPUS, PROPONER_SIGUIENTE_ACCION]
 
 
 # --- Presentación de los pasajes ------------------------------------------
@@ -107,6 +155,9 @@ def formatear_pasajes(pasajes: list[corpus.Pasaje]) -> str:
         bloques.append(f"[{ETIQUETA_TIER[f.tier]}]\n{fuente}\n{f.texto}")
 
     return _CABECERA + "\n\n---\n\n".join(bloques)
+
+
+NOMBRES_LECTURA = {"buscar_corpus"}
 
 
 def ejecutar_lectura(nombre: str, entrada: dict) -> tuple[str, list[corpus.Pasaje]]:

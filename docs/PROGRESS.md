@@ -30,7 +30,8 @@ code.
 | `6c9041e` | Gateway live, models resolved, first measured finding |
 | `1fdedb7` | SMTP inherited and verified; Calendar authorisation script |
 | `e3a4930` | Why the Calendar client is Desktop |
-| _this_ | Calendar authorised, dedicated calendar seeded |
+| `eb69eac` | Calendar authorised, dedicated calendar seeded |
+| _this_ | Phase 2: the loop decides. 30 tests passing |
 
 ## Submission checklist coverage
 
@@ -48,7 +49,7 @@ Status is against the real checklist, not against phases.
 
 | Item | Status | Where |
 |---|---|---|
-| Working agent, decides at runtime | not started | specced in `03` §1–§2 |
+| Working agent, decides at runtime | **loop working** | `agente/grafo.py`; different leads take different paths, driven by the model |
 | At least two tools | **1 of 4 built** | `buscar_corpus` built, tested, and verified end to end through the gateway; email, calendar and the gate tools remain |
 | Memory component + stated reason | not started | tier chosen and argued in `03` §7 |
 | Human validation gate | not started | specced in `03` §5 |
@@ -62,7 +63,7 @@ Status is against the real checklist, not against phases.
 | Cases it gets wrong, ≥2 mechanistic | not started | — |
 | Deliberate failure injection | not started | two planned in `03` §10 |
 | `pytest-asyncio` suite, passing output | not started | — |
-| Observability evidence | not started | two layers planned in `03` §11 |
+| Observability evidence | **partial** | step traces in `agente/traza.py`, written per run; Portkey side pending |
 
 ### Communicate
 
@@ -73,9 +74,11 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 3 of 17**, with Build under way: the corpus tool is finished and the
-gateway is live with both models resolved. The first measured finding is
-recorded in `docs/evidence/00_query_formulation.md`.
+**Done: 3 of 17**, with Build well under way. The decision loop runs end to
+end on real leads: `L01` and `L02` detect the false free-visit promise, quote
+both sides and escalate — on the cheap model. Two findings are recorded in
+`docs/evidence/`, and the second one corrected a mistake of mine rather than
+the agent's.
 
 ## Blockers
 
