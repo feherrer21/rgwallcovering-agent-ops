@@ -338,7 +338,34 @@ question rather than a technical one, and it is recorded here as a decision for
 the project owner to confirm with their line manager — the same path that
 handles budget resets.
 
-### 12.3 The graded demo does not depend on the app being up
+### 12.3 Calendar credentials: authorised once, never re-authorised
+
+The OAuth client is a **Desktop** client, and that is a design choice rather
+than a convenience. Authorisation happens once, on a developer machine, via a
+localhost redirect. What reaches the deployment is a refresh token, a client id
+and a client secret — the deployed app performs no consent flow at all.
+
+A **Web application** client was rejected. It would run the consent flow from
+the deployment, which means asking *whoever opens the app* to authorise *their
+own* calendar. The agent must read one fixed calendar — the test account
+standing in for Ronald's — and must never negotiate access with a viewer at
+runtime. The Desktop client makes that structurally impossible.
+
+Two consequences, and both matter:
+
+- **The deployment can never re-authorise itself.** If Google invalidates the
+  refresh token — password change, revoked access, long disuse, or the seven-day
+  expiry that applies to apps left in Testing — the calendar tool stops working
+  and cannot be repaired from the app. Recovery requires re-running
+  `scripts/autorizar_calendario.py` from a machine with a browser. This is a
+  security property and an operational gap at the same time, and it is stated
+  here as both.
+- **The seven-day expiry is the demo's main scheduling risk.** It is independent
+  of client type. Either the consent screen is published, or the authorisation
+  is re-run shortly before any demonstration. Assuming a token minted weeks
+  earlier still works is how a working system looks broken in front of a client.
+
+### 12.4 The graded demo does not depend on the app being up
 
 Free-tier apps sleep. The L1 evaluator reached a sleeping app and got a 303, and
 the submission carried that cost for something unrelated to the work.
