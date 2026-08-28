@@ -192,15 +192,19 @@ question and replaces the cost calculus a personal free tier would have had.
 |---|---|
 | Gateway | **Portkey**, `https://portkeygateway.perficient.com/v1`, every call from the first day of building — not only the final runs. Access is SSO-provisioned on learning-path enrolment. |
 | Budget | **$50 USD per consultant, across the whole learning path.** A reset requires a support ticket with line-manager approval, so this is a real constraint rather than a formality. |
-| Build and iterate | The cheapest capable model in the workspace catalog. Iteration is where spend accumulates — dozens of debugging runs of the graph — and it is the spend that buys the least evidence. |
-| Final comparison | One evaluation run on a frontier model against the same set, reported side by side on cost, latency and the S1–S6 criteria. |
+| Build and iterate | `@dsvertex/gemini-2.5-flash`. Iteration is where spend accumulates — dozens of debugging runs of the graph — and it is the spend that buys the least evidence. |
+| Final comparison | `@aws-bedrock-use2/us.anthropic.claude-opus-5`, one run against the same set, reported side by side on cost, latency and the S1–S6 criteria. |
 | Client | `langchain_openai.ChatOpenAI` pointed at the gateway with `portkey_ai.createHeaders(...)`, per the guide's own LangGraph example. One client; the provider is a header, not a code path. |
 
-Model identifiers are workspace-catalog specific — the guide's own examples are
-`us.anthropic.claude-haiku-4-5-20251001-v1:0` and `@azure-openai-eus2/gpt-5.4`
-— so the exact slugs are resolved against the live catalog rather than guessed:
+Resolved against the live catalog with `scripts/verificar_gateway.py`, which
+returned 66 models and settled two things the setup guide got wrong: real
+`gemini-2.5-flash` and `-flash-lite` entries exist, while the guide's "Gemini
+Flash" row points at a Pro model; and **`claude-opus-5` is available**.
 
-```
+That second point upgrades the comparison. The frontier model is not an
+arbitrary expensive one — it is the exact model the certified L1 project ran on,
+so cost and behaviour compare against a known, graded baseline rather than
+against a stranger.
 curl https://portkeygateway.perficient.com/v1/models \
      -H "x-portkey-api-key: $PORTKEY_API_KEY"
 ```
@@ -211,6 +215,14 @@ choice against at least one alternative you rejected", and the evidence
 standard's demand for a measured number — with one extra run. The gateway is
 metering a genuinely capped budget, which makes the cost figure a real number
 rather than a dashboard curiosity.
+
+A failure mode was measured before the graph existed, and it is not about
+reasoning: the model can fail S3 by *querying* badly. Adding the lead's town to
+the corpus query drops the tier-A pricing passage below the floor and returns a
+tier-C passage instead — silently, with no error and no empty result. The tool
+description was changed to compensate. See
+`docs/evidence/00_query_formulation.md`; whether that instruction suffices is
+re-measured in Phase 6, not asserted here.
 
 **The interesting outcome is S3.** Detecting that free prose contradicts a
 tier-A passage is the hardest thing asked of the model. If the cheap model fails

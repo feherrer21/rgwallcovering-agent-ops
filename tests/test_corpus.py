@@ -153,3 +153,44 @@ def test_el_tier_sobrevive_a_la_recuperacion(corpus_real):
 def test_top_k_invalido(corpus_real):
     with pytest.raises(ValueError):
         corpus_real.buscar("wallpaper", top_k=0)
+
+
+# --- Regresion: formulacion de consulta (docs/evidence/00) ----------------
+
+
+@pytest.mark.parametrize(
+    "consulta",
+    [
+        "is the assessment visit free",
+        "is the assessment visit charged",
+        "does the assessment fee depend on distance",
+        "how much does the assessment visit cost",
+    ],
+)
+def test_la_politica_de_la_visita_es_recuperable_en_nivel_a(corpus_real, consulta):
+    """El pasaje que desmiente la promesa falsa tiene que llegar en tier A.
+
+    Si esto deja de pasar, el criterio S3 se vuelve inalcanzable por
+    construccion: el agente no puede detectar una contradiccion cuya evidencia
+    no le llega. Es una prueba sobre el corpus, no sobre el modelo.
+    """
+    resultados = corpus_real.buscar(consulta)
+    assert any(p.fragmento.tier == "A" for p in resultados), (
+        f"{consulta!r} no recupero ningun pasaje de nivel A"
+    )
+
+
+def test_el_toponimo_hunde_la_politica(corpus_real):
+    """Documenta el fallo medido, no lo arregla.
+
+    Anadir el pueblo del lead a la consulta saca el documento de politica de
+    los resultados. Esta prueba existe para que el dia que el comportamiento
+    cambie -corpus reindexado, piso recalibrado- nos enteremos, porque la
+    descripcion de la tool se escribio para compensar exactamente esto.
+    Ver docs/evidence/00_query_formulation.md.
+    """
+    limpia = corpus_real.buscar("is the assessment visit charged")
+    con_pueblo = corpus_real.buscar("is the assessment visit charged in Pawtucket")
+
+    assert any(p.fragmento.tier == "A" for p in limpia)
+    assert not any(p.fragmento.tier == "A" for p in con_pueblo)

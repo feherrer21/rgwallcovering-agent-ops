@@ -25,7 +25,9 @@ code.
 | `902f772` | Deployment and access control |
 | `26eb169` | `04_plan.md` + `05_tasks.md` |
 | `d332678` | Scaffolding — `agente/`, `config.py`, `.env.example` |
-| _this_ | Phase 1 complete: the corpus tool, 19 tests passing |
+| `ffc097d` | Phase 1: the corpus tool, 19 tests passing |
+| `2f00953` | Catalog check script |
+| _this_ | Gateway live, models resolved, first measured finding |
 
 ## Submission checklist coverage
 
@@ -44,7 +46,7 @@ Status is against the real checklist, not against phases.
 | Item | Status | Where |
 |---|---|---|
 | Working agent, decides at runtime | not started | specced in `03` §1–§2 |
-| At least two tools | **1 of 4 built** | `buscar_corpus` done and tested; email, calendar and the gate tools remain |
+| At least two tools | **1 of 4 built** | `buscar_corpus` built, tested, and verified end to end through the gateway; email, calendar and the gate tools remain |
 | Memory component + stated reason | not started | tier chosen and argued in `03` §7 |
 | Human validation gate | not started | specced in `03` §5 |
 | Failure handling: validate, retry with reason, escalate | not started | specced in `03` §10 |
@@ -68,25 +70,18 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 3 of 17.** All three are Define. Nothing in Build, Prove or Communicate
-has started.
+**Done: 3 of 17**, with Build under way: the corpus tool is finished and the
+gateway is live with both models resolved. The first measured finding is
+recorded in `docs/evidence/00_query_formulation.md`.
 
 ## Blockers
 
 Ordered by what stops work soonest.
 
-1. **Portkey API key** — blocks every model call. Perficient policy prohibits
-   personal provider keys for coursework, so there is no fallback to develop
-   against while waiting. Access is SSO-provisioned on learning-path enrolment
-   and processed weekly, so if it is not live yet the wait is until the
-   following Monday. Reach it via myapplications.microsoft.com → Portkey.
-2. **Model catalog slugs** — resolved, not guessed, once the key exists:
-   `curl https://portkeygateway.perficient.com/v1/models -H "x-portkey-api-key: $PORTKEY_API_KEY"`.
-   Determines which cheap and frontier models §8 of `03` actually names.
-3. **Google Cloud project with Calendar API + OAuth refresh token** — requires
+1. **Google Cloud project with Calendar API + OAuth refresh token** — requires
    manual authorisation by Fabián in a browser; Claude Code cannot do this step.
    Blocks the calendar tool and lead `L19`.
-4. **Synthetic events seeded in the test calendar** — without a busy calendar,
+2. **Synthetic events seeded in the test calendar** — without a busy calendar,
    `leer_calendario` has nothing to reason about and the scheduling path is
    untested. Same synthetic-persona discipline as the lead set.
 

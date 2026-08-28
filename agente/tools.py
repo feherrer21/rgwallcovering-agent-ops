@@ -37,7 +37,17 @@ BUSCAR_CORPUS = {
                         "customer would ask. E.g. 'is the assessment visit "
                         "charged', 'how long does installation take', 'do they "
                         "cover Massachusetts'. Translate if the lead wrote in "
-                        "another language — the corpus is English-only."
+                        "another language — the corpus is English-only.\n\n"
+                        "Ask about the POLICY, not about this lead. Leave out "
+                        "their name, their town and their specifics: the corpus "
+                        "describes the business, and it holds no document about "
+                        "any individual customer or address. Adding those words "
+                        "moves the query away from the document you need and can "
+                        "drop it out of the results entirely.\n\n"
+                        "If a claim has two parts — a rule and a reason, such as "
+                        "'no charge because they are nearby' — search for them "
+                        "separately. One call for the rule, one for the reason. "
+                        "A combined query retrieves neither well."
                     ),
                 }
             },
