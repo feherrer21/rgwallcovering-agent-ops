@@ -1,0 +1,45 @@
+# Secretos — nunca se commitean
+.env
+.streamlit/secrets.toml
+
+# Credenciales y token de Google Calendar. El refresh token se genera una sola
+# vez con autorización manual y vive en el panel de Secrets del despliegue,
+# nunca en el repositorio.
+client_secret*.json
+credentials.json
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Datos personales. Los leads llevan nombre, correo y teléfono: no se
+# versionan. Esta regla existe desde el primer commit, antes de que pudiera
+# existir ningún lead — recuperarla después ya sería tarde.
+data/leads*.jsonl
+data/runtime/
+
+# Trazas de ejecución: pueden contener el contenido de una conversación. La
+# evidencia de observabilidad que sí se entrega se cura a mano y se guarda en
+# docs/evidence/ con personas sintéticas.
+traces/
+*.trace.jsonl
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Material del curso y andamiaje interno: se trabaja desde ellos, no se
+# publican. El brief y el checklist son material del academy de Perficient y
+# no son míos para redistribuir; el handoff son notas de diseño internas. Los
+# entregables que sí se evalúan (01_..., 02_..., 03_..., REFLECTION.md,
+# docs/evidence/) sí se versionan.
+docs/L2_Case05_Open_Choice_Agent_Brief.docx
+docs/criteria_checklist.md
+docs/RGWallcovering_L2_LeadAgent_HANDOFF.md
