@@ -23,7 +23,9 @@ code.
 | `6dce51c` | `03_spec.md` — the graph |
 | `a1d2ae4` | Model routing corrected against Perficient policy |
 | `902f772` | Deployment and access control |
-| _this_ | `04_plan.md` + `05_tasks.md` |
+| `26eb169` | `04_plan.md` + `05_tasks.md` |
+| `d332678` | Scaffolding — `agente/`, `config.py`, `.env.example` |
+| _this_ | Phase 1 complete: the corpus tool, 19 tests passing |
 
 ## Submission checklist coverage
 
@@ -42,7 +44,7 @@ Status is against the real checklist, not against phases.
 | Item | Status | Where |
 |---|---|---|
 | Working agent, decides at runtime | not started | specced in `03` §1–§2 |
-| At least two tools | not started | 4 specced in `03` §4 |
+| At least two tools | **1 of 4 built** | `buscar_corpus` done and tested; email, calendar and the gate tools remain |
 | Memory component + stated reason | not started | tier chosen and argued in `03` §7 |
 | Human validation gate | not started | specced in `03` §5 |
 | Failure handling: validate, retry with reason, escalate | not started | specced in `03` §10 |
@@ -131,4 +133,4 @@ file exists to prevent.
 
 | Session | Date | Hours | What |
 |---|---|---|---|
-| 1 | 2026-08-28 | in progress | Handoff review, L1 reuse audit, repo setup, `CLAUDE.md`, `01`, `02` + 20-lead set, `03` |
+| 1 | 2026-08-28 | in progress | Handoff review, L1 reuse audit, repo setup, `CLAUDE.md`, `01`–`05`, 20-lead set, Python 3.11, scaffolding, Phase 1 |

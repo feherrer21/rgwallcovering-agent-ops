@@ -35,6 +35,15 @@ tier B, 35 tier C.** Embeddings are `BAAI/bge-small-en-v1.5` via `fastembed`,
 384 dimensions, L2-normalised, computed locally on CPU. No embedding API is
 called, at build time or at query time.
 
+**Exact provenance of the two files in `data/index/`.** Copied byte-for-byte
+from `rgwallcovering-ai-assistant` at commit
+`10612cab073e7514af59dcb6598aff690c1a3daf` (2026-08-14), which is that
+repository's head at the time of copying and the state in which it was
+certified. `embeddings.npy` verified identical by checksum
+(`md5 05227d0493574411ffb48bc967f922ec`). Naming the commit matters because the
+corpus behind these files was corrected two days before it — see §1.3 — so
+"the corpus from L1" is ambiguous and a commit is not.
+
 ### 1.2 The property of this corpus that matters most here
 
 **It is large in volume and thin in answering power.** The blog is
