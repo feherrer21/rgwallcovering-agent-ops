@@ -32,7 +32,8 @@ code.
 | `e3a4930` | Why the Calendar client is Desktop |
 | `eb69eac` | Calendar authorised, dedicated calendar seeded |
 | `024539b` | Phase 2: the loop decides |
-| _this_ | Phase 3: the human gate. 45 tests passing |
+| `b30cf90` | Phase 3: the human gate |
+| _this_ | Phase 4: durable memory. 52 tests passing |
 
 ## Submission checklist coverage
 
@@ -52,7 +53,7 @@ Status is against the real checklist, not against phases.
 |---|---|---|
 | Working agent, decides at runtime | **loop working** | `agente/grafo.py`; different leads take different paths, driven by the model |
 | At least two tools | **4 of 4 built** | `buscar_corpus`, `leer_calendario` (read); `enviar_correo`, `crear_evento` (gated). All exercised against the real services |
-| Memory component + stated reason | **partial** | checkpointer wired (the gate needs one); `SqliteSaver` and the per-lead ledger are Phase 4 |
+| Memory component + stated reason | **done** | `SqliteSaver` + per-lead ledger, with the reason argued in `03` §7 and *proved* by killing the process between preparing and approving |
 | Human validation gate | **done** | `gate_humano` as a LangGraph interrupt; one inbound edge to the send node, asserted by test |
 | Failure handling: validate, retry with reason, escalate | not started | specced in `03` §10 |
 
@@ -75,7 +76,7 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 3 of 17**, with Build well under way. The decision loop runs end to
+**Done: 9 of 17.** Build is complete except failure handling.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than

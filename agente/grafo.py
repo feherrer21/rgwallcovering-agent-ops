@@ -17,11 +17,10 @@ import logging
 from datetime import datetime
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
-from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 from langgraph.types import interrupt
 
-from . import calendario, correo
+from . import calendario, correo, persistencia
 from . import modelo as modelo_mod
 from . import prompts, tools
 from .config import ajustes
@@ -54,10 +53,10 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
     llm = llm if llm is not None else modelo_mod.cliente()
     con_decision = llm.bind_tools(tools.TOOLS_DECISION)
     tz = traza if traza is not None else Traza()
-    # El gate es un interrupt, y un interrupt necesita checkpointer. La fase 4
-    # lo cambia por SqliteSaver y añade la prueba de reinicio que justifica el
-    # tier de memoria (04_plan.md: gate y memoria son inseparables).
-    saver = checkpointer if checkpointer is not None else MemorySaver()
+    # Duradero, no en memoria. La aprobación llega en tiempo humano y el
+    # estado tiene que sobrevivir al proceso que lo preparó: el argumento
+    # completo está en persistencia.py y lo prueba test_memoria.py.
+    saver = checkpointer if checkpointer is not None else persistencia.checkpointer()
 
     # --- Nodos ------------------------------------------------------------
 
@@ -312,12 +311,21 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
             # Se propaga como estado, no se traga: la fase 5 lo convierte en
             # reintento con el motivo y escalación tras agotarlo.
             tz.fallo("ejecutar_irreversible", str(exc))
+            persistencia.registrar(
+                estado.lead.lead_id, p.tipo, "fallo",
+                motivo=str(exc), corrida=estado.corrida_id,
+            )
             return {
                 "resultado": "",
                 "fallos": [Fallo(herramienta=p.tipo, motivo=str(exc), intento=1)],
             }
 
         tz.paso("ejecutar_irreversible", tipo=p.tipo, resultado=resultado)
+        persistencia.registrar(
+            estado.lead.lead_id, p.tipo, "ok",
+            detalle=resultado, aprobo=estado.aprobacion.quien,
+            corrida=estado.corrida_id,
+        )
         return {"resultado": resultado}
 
     def escalar(estado: EstadoLead) -> dict:
@@ -327,6 +335,10 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
             motivo=estado.motivo[:200],
             pasajes=len(estado.hallazgos),
             fallos=[f.motivo for f in estado.fallos],
+        )
+        persistencia.registrar(
+            estado.lead.lead_id, "escalacion", "ok",
+            motivo=estado.motivo[:300], corrida=estado.corrida_id,
         )
         return {}
 
