@@ -20,7 +20,7 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, Tool
 from langgraph.graph import END, StateGraph
 from langgraph.types import interrupt
 
-from . import calendario, correo, persistencia
+from . import calendario, correo, escalacion as esc, persistencia, validacion
 from . import modelo as modelo_mod
 from . import prompts, tools
 from .config import ajustes
@@ -175,6 +175,26 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
             }
 
         args = respuesta.tool_calls[0]["args"]
+
+        # Se valida aqui, no despues del gate: una direccion invalida que
+        # llega hasta Ronald le hace aprobar algo inejecutable, y convierte su
+        # decision en ruido.
+        try:
+            validacion.validar_borrador(tipo, args)
+        except validacion.ErrorDeValidacion as exc:
+            tz.fallo("preparar", f"borrador invalido: {exc}")
+            intentos = dict(estado.intentos)
+            intentos["preparar"] = intentos.get("preparar", 0) + 1
+            return {
+                "mensajes": [instruccion, respuesta, ToolMessage(
+                    content=f"REJECTED, not sent to anyone: {exc}. Fix it and draft again.",
+                    tool_call_id=respuesta.tool_calls[0]["id"])],
+                "llamadas": estado.llamadas + 1,
+                "intentos": intentos,
+                "fallos": [Fallo(herramienta="preparar", motivo=str(exc),
+                                 intento=intentos["preparar"])],
+            }
+
         propuesta = AccionPropuesta(
             tipo=tipo,
             destinatario=args.get("destinatario", ""),
@@ -315,9 +335,13 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
                 estado.lead.lead_id, p.tipo, "fallo",
                 motivo=str(exc), corrida=estado.corrida_id,
             )
+            intentos = dict(estado.intentos)
+            intentos[p.tipo] = intentos.get(p.tipo, 0) + 1
             return {
                 "resultado": "",
-                "fallos": [Fallo(herramienta=p.tipo, motivo=str(exc), intento=1)],
+                "intentos": intentos,
+                "fallos": [Fallo(herramienta=p.tipo, motivo=str(exc),
+                                 intento=intentos[p.tipo])],
             }
 
         tz.paso("ejecutar_irreversible", tipo=p.tipo, resultado=resultado)
@@ -328,6 +352,73 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
         )
         return {"resultado": resultado}
 
+    def recuperar(estado: EstadoLead) -> dict:
+        """Realimenta el motivo especifico. No es un reintento ciego.
+
+        El texto que entra aqui es el que el modelo lee en su siguiente turno,
+        asi que tiene que decir que fallo y como corregirlo. "Fallo, intentalo
+        otra vez" no es un reintento (03_spec.md §10).
+        """
+        ultimo = estado.fallos[-1] if estado.fallos else None
+        motivo = ultimo.motivo if ultimo else "unknown failure"
+        herramienta = ultimo.herramienta if ultimo else "?"
+        gastados = estado.intentos.get(herramienta, 0)
+        restantes = max(0, ajustes.reintentos_por_tool - gastados)
+
+        tz.paso("recuperar", herramienta=herramienta, motivo=motivo[:160],
+                gastados=gastados, restantes=restantes)
+
+        if restantes == 0:
+            # Presupuesto agotado: se escala con todo, no se sigue girando.
+            return {
+                "accion": Accion.ESCALAR_A_RONALD,
+                "motivo": (
+                    f"{herramienta} failed {gastados} times and the retry budget "
+                    f"is spent. Last reason: {motivo}"
+                ),
+            }
+
+        # DÓNDE falló importa tanto como qué falló. Medido: con un mensaje que
+        # solo decía "el paso `correo` falló", el modelo escaló diciendo que el
+        # correo no se había podido *preparar para aprobación* — cuando se
+        # había preparado, y Ronald lo había aprobado, y lo que falló fue el
+        # envío. Eso le describe a Ronald algo que no ocurrió.
+        ya_aprobado = estado.aprobacion.autoriza
+        etapa = (
+            "sending the message you already approved"
+            if ya_aprobado
+            else f"the `{herramienta}` step"
+        )
+        transitorio = any(
+            s in motivo for s in ("421", "4.7.0", "Temporary", "try again", "Try again")
+        )
+
+        return {
+            "accion": None,
+            "accion_propuesta": None,
+            "aprobacion": Aprobacion(),
+            "mensajes": [HumanMessage(content=(
+                f"FAILURE while {etapa}. Reason, verbatim: {motivo}\n\n"
+                + (
+                    "The draft itself was fine and had been approved; the "
+                    "delivery is what failed.\n\n"
+                    if ya_aprobado
+                    else ""
+                )
+                + (
+                    "That code is a TEMPORARY server condition, not a problem "
+                    "with the message or the address. Retrying the same action "
+                    "is the appropriate response.\n\n"
+                    if transitorio
+                    else ""
+                )
+                + f"Nothing reached the customer. You have {restantes} attempt"
+                f"{'s' if restantes != 1 else ''} left. Either retry, fix the "
+                "specific problem named above, or choose a different action — "
+                "but do not tell Ronald something happened that did not."
+            ))],
+        }
+
     def escalar(estado: EstadoLead) -> dict:
         tz.paso(
             "escalar",
@@ -336,11 +427,14 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
             pasajes=len(estado.hallazgos),
             fallos=[f.motivo for f in estado.fallos],
         )
+        paquete = esc.construir(estado)
+        tz.paso("escalacion", texto=paquete.texto)
         persistencia.registrar(
             estado.lead.lead_id, "escalacion", "ok",
-            motivo=estado.motivo[:300], corrida=estado.corrida_id,
+            motivo=estado.motivo[:300], intentos=len(paquete.intentos),
+            corrida=estado.corrida_id,
         )
-        return {}
+        return {"escalacion": paquete.texto}
 
     # --- Aristas ----------------------------------------------------------
 
@@ -355,9 +449,20 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
         return "decidir"
 
     def ruta_preparar(estado: EstadoLead) -> str:
-        # Sin borrador no hay nada que aprobar: se vuelve a decidir en lugar de
-        # presentarle al humano una propuesta vacía.
-        return "gate_humano" if estado.accion_propuesta else "decidir"
+        if estado.accion_propuesta:
+            return "gate_humano"
+        # Un borrador rechazado por el validador entra al ciclo de
+        # recuperacion; que el modelo no llamara a la herramienta, no.
+        if estado.fallos and estado.fallos[-1].herramienta == "preparar":
+            return "recuperar"
+        return "decidir"
+
+    def ruta_ejecutar(estado: EstadoLead) -> str:
+        # El unico sitio del grafo donde un fallo ya toco el mundo exterior.
+        return END if estado.resultado else "recuperar"
+
+    def ruta_recuperar(estado: EstadoLead) -> str:
+        return "escalar" if estado.accion is Accion.ESCALAR_A_RONALD else "decidir"
 
     def ruta_gate(estado: EstadoLead) -> str:
         return "ejecutar_irreversible" if estado.aprobacion.autoriza else "decidir"
@@ -368,6 +473,7 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
         ("decidir", decidir),
         ("ejecutar_tool", ejecutar_tool),
         ("preparar", preparar),
+        ("recuperar", recuperar),
         ("gate_humano", gate_humano),
         ("ejecutar_irreversible", ejecutar_irreversible),
         ("escalar", escalar),
@@ -388,7 +494,8 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
     )
     g.add_edge("ejecutar_tool", "decidir")
     g.add_conditional_edges(
-        "preparar", ruta_preparar, {"gate_humano": "gate_humano", "decidir": "decidir"}
+        "preparar", ruta_preparar,
+        {"gate_humano": "gate_humano", "decidir": "decidir", "recuperar": "recuperar"},
     )
     # La ÚNICA arista que entra a ejecutar_irreversible.
     g.add_conditional_edges(
@@ -396,7 +503,14 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
         ruta_gate,
         {"ejecutar_irreversible": "ejecutar_irreversible", "decidir": "decidir"},
     )
-    g.add_edge("ejecutar_irreversible", END)
+    g.add_conditional_edges(
+        "ejecutar_irreversible", ruta_ejecutar,
+        {END: END, "recuperar": "recuperar"},
+    )
+    g.add_conditional_edges(
+        "recuperar", ruta_recuperar,
+        {"escalar": "escalar", "decidir": "decidir"},
+    )
     g.add_edge("escalar", END)
 
     return g.compile(checkpointer=saver)

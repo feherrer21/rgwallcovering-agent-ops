@@ -81,6 +81,28 @@ class Ajustes(BaseSettings):
     google_refresh_token: str = ""
     calendar_id: str = "primary"
 
+    # --- Inyección deliberada de fallos -----------------------------------
+    # Formato "herramienta:n" — falla las n primeras llamadas a esa acción.
+    # Ej. INYECTAR_FALLO=correo:2
+    #
+    # Existe porque el fallo planificado NO se disparó: el agente reconoció el
+    # dominio irresoluble de L20 por inspección y escaló sin intentar enviar.
+    # Un fallo que el modelo puede esquivar mirando no ejercita la ruta de
+    # recuperación, y esa ruta es la que hay que demostrar rota a propósito.
+    # Vacío en producción; se comprueba al arrancar.
+    inyectar_fallo: str = ""
+
+    @property
+    def inyeccion(self) -> tuple[str, int]:
+        """(herramienta, veces). ("", 0) si no hay inyección activa."""
+        if not self.inyectar_fallo or ":" not in self.inyectar_fallo:
+            return "", 0
+        herramienta, _, veces = self.inyectar_fallo.partition(":")
+        try:
+            return herramienta.strip(), int(veces)
+        except ValueError:
+            return "", 0
+
     # --- Acceso a la aplicación -------------------------------------------
     # Puerta, no autorización. El registro que evidencia S2 es la aprobación
     # del gate, no el hecho de haber entrado (03_spec.md §12.1).

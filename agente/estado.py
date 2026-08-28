@@ -205,7 +205,12 @@ class EstadoLead:
     accion_propuesta: AccionPropuesta | None = None
     aprobacion: Aprobacion = field(default_factory=Aprobacion)
     #: Resultado del envio o de la creacion del evento, una vez aprobado.
+    #: SOLO eso: que no vacio significa que algo salio al mundo exterior, y
+    #: `ruta_ejecutar` decide con ese hecho. Meter aqui cualquier otro texto
+    #: hace que un fallo parezca un exito.
     resultado: str = ""
+    #: El paquete de handoff, cuando la corrida termina escalando.
+    escalacion: str = ""
 
     #: Presupuestos. `llamadas` protege un presupuesto de la empresa, así que
     #: el tope es del grafo y no del proveedor (03_spec.md §12.2).

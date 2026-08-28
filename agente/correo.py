@@ -54,9 +54,31 @@ def validar_destinatario(direccion: str) -> None:
         )
 
 
+#: Cuántas veces ya se inyectó un fallo en esta sesión.
+_inyectados = 0
+
+
+def _quizas_inyectar() -> None:
+    """Rompe el envío a propósito, si la configuración lo pide.
+
+    El mensaje imita un rechazo real de servidor porque el objetivo es
+    ejercitar la ruta de recuperación con un motivo del que se pueda aprender,
+    no con un texto que delate que es de mentira.
+    """
+    global _inyectados
+    herramienta, veces = ajustes.inyeccion
+    if herramienta == "correo" and _inyectados < veces:
+        _inyectados += 1
+        raise ErrorDeEnvio(
+            "SMTP error: SMTPSenderRefused: 421 4.7.0 Temporary System Problem. "
+            f"Try again later. (injected failure {_inyectados}/{veces})"
+        )
+
+
 def enviar(destinatario: str, asunto: str, cuerpo: str) -> ResultadoEnvio:
     """Envía. Levanta ErrorDeEnvio con el motivo exacto si no sale."""
     validar_destinatario(destinatario)
+    _quizas_inyectar()
     if not cuerpo or not cuerpo.strip():
         raise ErrorDeEnvio("body is empty")
     if not ajustes.envio_configurado:

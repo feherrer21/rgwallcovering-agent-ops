@@ -33,7 +33,8 @@ code.
 | `eb69eac` | Calendar authorised, dedicated calendar seeded |
 | `024539b` | Phase 2: the loop decides |
 | `b30cf90` | Phase 3: the human gate |
-| _this_ | Phase 4: durable memory. 52 tests passing |
+| `32f6309` | Phase 4: durable memory |
+| _this_ | Phase 5: failure handling. 71 tests passing |
 
 ## Submission checklist coverage
 
@@ -55,15 +56,15 @@ Status is against the real checklist, not against phases.
 | At least two tools | **4 of 4 built** | `buscar_corpus`, `leer_calendario` (read); `enviar_correo`, `crear_evento` (gated). All exercised against the real services |
 | Memory component + stated reason | **done** | `SqliteSaver` + per-lead ledger, with the reason argued in `03` §7 and *proved* by killing the process between preparing and approving |
 | Human validation gate | **done** | `gate_humano` as a LangGraph interrupt; one inbound edge to the send node, asserted by test |
-| Failure handling: validate, retry with reason, escalate | not started | specced in `03` §10 |
+| Failure handling: validate, retry with reason, escalate | **done** | typed contracts before the gate, `recuperar` feeding the verbatim reason back, budget per tool per lead counted across sessions, escalation carrying every attempt |
 
 ### Prove
 
 | Item | Status | Where |
 |---|---|---|
 | Evaluation against defined criteria | not started | criteria S1–S6 fixed in `01` §6 |
-| Cases it gets wrong, ≥2 mechanistic | not started | — |
-| Deliberate failure injection | not started | two planned in `03` §10 |
+| Cases it gets wrong, ≥2 mechanistic | **3 recorded so far** | `evidence/00`, `02`, `03`. Full analysis after the Phase 9 holdout |
+| Deliberate failure injection | **done** | `INYECTAR_FALLO`; the planned one was defeated by the agent and replaced — `evidence/03` |
 | `pytest-asyncio` suite, passing output | not started | — |
 | Observability evidence | **partial** | step traces in `agente/traza.py`, written per run; Portkey side pending |
 
@@ -76,7 +77,7 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 9 of 17.** Build is complete except failure handling.  The decision loop runs end to
+**Done: 11 of 17.** Build is complete. What remains is Prove and Communicate: the evaluation harness and baseline, the pytest-asyncio suite, the holdout run, and the write-ups.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
