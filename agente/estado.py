@@ -111,6 +111,65 @@ class Fallo:
     intento: int
 
 
+class EstadoAprobacion(str, Enum):
+    """El ciclo de vida de una accion propuesta ante el gate."""
+
+    PENDIENTE = "pendiente"
+    APROBADA = "aprobada"
+    EDITADA = "editada"
+    RECHAZADA = "rechazada"
+
+
+@dataclass(frozen=True)
+class AccionPropuesta:
+    """Lo que el agente propone hacer. Es ESTADO, no un efecto.
+
+    Existir aqui no la ejecuta. La ejecucion es una transicion del grafo que
+    solo `gate_humano` autoriza (03_spec.md §4.2), y esa separacion es lo que
+    hace que el gate sea estructural y no un dialogo de confirmacion.
+    """
+
+    tipo: str  # "correo" | "evento"
+
+    # correo
+    destinatario: str = ""
+    asunto: str = ""
+    cuerpo: str = ""
+
+    # evento
+    inicio: str = ""
+    fin: str = ""
+    titulo: str = ""
+    descripcion: str = ""
+
+    #: Los chunks en los que se apoya cualquier afirmacion sobre el negocio.
+    #: Sin esto no se puede auditar S1: una afirmacion sin fuente citable es
+    #: indistinguible de una inventada.
+    chunk_ids: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class Aprobacion:
+    """El registro de que una persona autorizo una accion concreta.
+
+    ESTO es lo que evidencia S2, no el hecho de que alguien pasara el control
+    de acceso de la aplicacion (03_spec.md §12.1). Haber entrado por la puerta
+    no implica consentimiento a lo que ocurra despues.
+    """
+
+    estado: EstadoAprobacion = EstadoAprobacion.PENDIENTE
+    quien: str = ""
+    cuando: str = ""
+    #: True si la persona modifico el borrador antes de aprobarlo.
+    editada: bool = False
+    #: Por que lo rechazo. Vuelve a `decidir` como entrada, no termina la corrida.
+    motivo_rechazo: str = ""
+
+    @property
+    def autoriza(self) -> bool:
+        return self.estado in (EstadoAprobacion.APROBADA, EstadoAprobacion.EDITADA)
+
+
 @dataclass(frozen=True)
 class AccionRegistrada:
     """Algo que ya se intentó sobre este lead."""
@@ -141,6 +200,12 @@ class EstadoLead:
     #: La decisión del modelo y por qué. Se llena en `decidir`.
     accion: Accion | None = None
     motivo: str = ""
+
+    #: Preparada y esperando al gate. Nunca se ejecuta por existir.
+    accion_propuesta: AccionPropuesta | None = None
+    aprobacion: Aprobacion = field(default_factory=Aprobacion)
+    #: Resultado del envio o de la creacion del evento, una vez aprobado.
+    resultado: str = ""
 
     #: Presupuestos. `llamadas` protege un presupuesto de la empresa, así que
     #: el tope es del grafo y no del proveedor (03_spec.md §12.2).

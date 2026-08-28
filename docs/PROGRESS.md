@@ -31,7 +31,8 @@ code.
 | `1fdedb7` | SMTP inherited and verified; Calendar authorisation script |
 | `e3a4930` | Why the Calendar client is Desktop |
 | `eb69eac` | Calendar authorised, dedicated calendar seeded |
-| _this_ | Phase 2: the loop decides. 30 tests passing |
+| `024539b` | Phase 2: the loop decides |
+| _this_ | Phase 3: the human gate. 45 tests passing |
 
 ## Submission checklist coverage
 
@@ -50,9 +51,9 @@ Status is against the real checklist, not against phases.
 | Item | Status | Where |
 |---|---|---|
 | Working agent, decides at runtime | **loop working** | `agente/grafo.py`; different leads take different paths, driven by the model |
-| At least two tools | **1 of 4 built** | `buscar_corpus` built, tested, and verified end to end through the gateway; email, calendar and the gate tools remain |
-| Memory component + stated reason | not started | tier chosen and argued in `03` §7 |
-| Human validation gate | not started | specced in `03` §5 |
+| At least two tools | **4 of 4 built** | `buscar_corpus`, `leer_calendario` (read); `enviar_correo`, `crear_evento` (gated). All exercised against the real services |
+| Memory component + stated reason | **partial** | checkpointer wired (the gate needs one); `SqliteSaver` and the per-lead ledger are Phase 4 |
+| Human validation gate | **done** | `gate_humano` as a LangGraph interrupt; one inbound edge to the send node, asserted by test |
 | Failure handling: validate, retry with reason, escalate | not started | specced in `03` §10 |
 
 ### Prove

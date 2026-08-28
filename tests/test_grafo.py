@@ -42,6 +42,12 @@ def _busqueda(consulta="is the assessment visit charged"):
     }])
 
 
+#: El checkpointer que sostiene el interrupt del gate exige un thread_id.
+#: Cada prueba usa el suyo para no compartir estado con las demas.
+def _cfg(nombre):
+    return {"configurable": {"thread_id": nombre}}
+
+
 def _estado(**kwargs):
     campos = {"lead_id": "T01", "nombre": "Test", "email": "t@example.com"}
     campos.update(kwargs)
@@ -49,18 +55,29 @@ def _estado(**kwargs):
 
 
 def test_decide_sin_buscar_cuando_no_hace_falta():
-    llm = LLMFalso([_decision("preparar_correo_visita")])
+    """Nada que verificar en el registro: decide sin gastar una busqueda.
+
+    Desde la fase 3 la decision no termina la corrida: enlaza con `preparar` y
+    se detiene en el gate. Por eso el falso modelo necesita dos respuestas, y
+    por eso lo que se comprueba es que la primera llamada no fue una busqueda.
+    """
+    borrador = AIMessage(content="", tool_calls=[{
+        "name": "redactar_correo",
+        "args": {"destinatario": "t@example.com", "asunto": "x", "cuerpo": "y"},
+        "id": "r1"}])
+    llm = LLMFalso([_decision("preparar_correo_visita"), borrador])
     app = grafo.construir(llm=llm, traza=Traza())
-    final = app.invoke(_estado())
+    final = app.invoke(_estado(), _cfg("sin-buscar"))
     assert final["accion"] is Accion.PREPARAR_CORREO_VISITA
-    assert len(llm.vistas) == 1
+    assert final["__interrupt__"], "debio detenerse en el gate"
+    assert not final.get("resultado"), "no se ejecuto nada sin aprobacion"
 
 
 def test_busca_y_luego_decide(corpus_real):
     """El bucle cierra: la salida de la tool vuelve al modelo."""
     llm = LLMFalso([_busqueda(), _decision("escalar_a_ronald")])
     app = grafo.construir(llm=llm, traza=Traza())
-    final = app.invoke(_estado())
+    final = app.invoke(_estado(), _cfg("busca-decide"))
     assert final["accion"] is Accion.ESCALAR_A_RONALD
     assert final["hallazgos"], "los pasajes recuperados no llegaron al estado"
     # La segunda invocacion tiene que haber visto el resultado de la tool.
@@ -74,7 +91,7 @@ def test_la_prosa_suelta_no_cuenta_como_decision():
         _decision("escalar_a_ronald"),
     ])
     app = grafo.construir(llm=llm, traza=Traza())
-    final = app.invoke(_estado())
+    final = app.invoke(_estado(), _cfg("prosa"))
     assert final["accion"] is Accion.ESCALAR_A_RONALD
     assert len(llm.vistas) == 2
 
@@ -87,7 +104,7 @@ def test_el_tope_de_llamadas_escala_en_vez_de_gastar():
     try:
         llm = LLMFalso([_busqueda(), _busqueda(), _decision("preparar_correo_visita")])
         app = grafo.construir(llm=llm, traza=Traza())
-        final = app.invoke(_estado(), {"recursion_limit": 30})
+        final = app.invoke(_estado(), {"recursion_limit": 30, **_cfg("tope")})
         assert final["accion"] is Accion.ESCALAR_A_RONALD
         assert "limit" in final["motivo"].lower()
     finally:
@@ -97,7 +114,7 @@ def test_el_tope_de_llamadas_escala_en_vez_de_gastar():
 def test_la_traza_registra_la_decision_y_su_motivo():
     tz = Traza()
     llm = LLMFalso([_decision("escalar_a_ronald", "sin canal de contacto")])
-    grafo.construir(llm=llm, traza=tz).invoke(_estado(email=""))
+    grafo.construir(llm=llm, traza=tz).invoke(_estado(email=""), _cfg("traza"))
     decisiones = [p for p in tz.pasos if p["nodo"] == "decidir" and "accion" in p]
     assert decisiones and decisiones[0]["motivo"] == "sin canal de contacto"
 

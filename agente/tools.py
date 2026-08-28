@@ -103,8 +103,38 @@ PROPONER_SIGUIENTE_ACCION = {
     },
 }
 
-TOOLS_LECTURA = [BUSCAR_CORPUS]
-TOOLS_DECISION = [BUSCAR_CORPUS, PROPONER_SIGUIENTE_ACCION]
+LEER_CALENDARIO = {
+    "type": "function",
+    "function": {
+        "name": "leer_calendario",
+        "description": (
+            "Returns the free start times in Ronald's diary over the next few "
+            "weeks, so you can offer one. Working hours are 07:00 to 18:00, "
+            "Monday to Friday, Providence time.\n\n"
+            "Call this only when the lead asked about timing or you are about "
+            "to offer a slot. It returns availability, never who the existing "
+            "appointments are with — that is somebody else's information and it "
+            "is not yours to read."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dias": {
+                    "type": "integer",
+                    "description": "How far ahead to look, in days. 14 to 30 is usual.",
+                },
+                "duracion_horas": {
+                    "type": "number",
+                    "description": "Length of the visit being placed. 1.5 is typical.",
+                },
+            },
+            "required": ["dias"],
+        },
+    },
+}
+
+TOOLS_LECTURA = [BUSCAR_CORPUS, LEER_CALENDARIO]
+TOOLS_DECISION = [BUSCAR_CORPUS, LEER_CALENDARIO, PROPONER_SIGUIENTE_ACCION]
 
 
 # --- Presentación de los pasajes ------------------------------------------
@@ -157,7 +187,7 @@ def formatear_pasajes(pasajes: list[corpus.Pasaje]) -> str:
     return _CABECERA + "\n\n---\n\n".join(bloques)
 
 
-NOMBRES_LECTURA = {"buscar_corpus"}
+NOMBRES_LECTURA = {"buscar_corpus", "leer_calendario"}
 
 
 def ejecutar_lectura(nombre: str, entrada: dict) -> tuple[str, list[corpus.Pasaje]]:
@@ -171,4 +201,95 @@ def ejecutar_lectura(nombre: str, entrada: dict) -> tuple[str, list[corpus.Pasaj
         pasajes = corpus.buscar(consulta)
         return formatear_pasajes(pasajes), pasajes
 
+    if nombre == "leer_calendario":
+        from datetime import datetime, timedelta, timezone
+
+        from . import calendario
+
+        dias = int(entrada.get("dias", 14))
+        duracion = float(entrada.get("duracion_horas", 1.5))
+        ahora = datetime.now(timezone.utc)
+        huecos = calendario.huecos_libres(ahora, ahora + timedelta(days=dias), duracion)
+        if not huecos:
+            return (
+                f"No free slot of {duracion}h in the next {dias} days. Offering a "
+                "time is not possible; say so rather than inventing one."
+            ), []
+        # Se listan pocos: una pared de horas no ayuda a elegir, y el modelo
+        # solo necesita candidatos plausibles para proponer uno.
+        lineas = "\n".join(f"  {h:%a %d %b %H:%M}" for h in huecos[:12])
+        return (
+            f"Free start times for a {duracion}h visit "
+            f"(Providence time), earliest first:\n{lineas}"
+        ), []
+
     raise ValueError(f"Herramienta de lectura desconocida: {nombre}")
+
+
+# --- Esquemas de redaccion (solo se enlazan en el nodo `preparar`) --------
+#
+# El modelo redacta; NO envia. Lo que produce se escribe en el estado como
+# AccionPropuesta y espera al gate. Estas herramientas nunca se enlazan en
+# `decidir`, para que no exista un camino en el que decidir y actuar sean el
+# mismo paso.
+
+REDACTAR_CORREO = {
+    "type": "function",
+    "function": {
+        "name": "redactar_correo",
+        "description": (
+            "Drafts the email. It is NOT sent: Ronald reads it and approves, "
+            "edits or rejects it first. Write it as Ronald's business would "
+            "write to a customer — plain, brief, no marketing voice."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "destinatario": {"type": "string", "description": "The lead's email address, exactly as given."},
+                "asunto": {"type": "string", "description": "Subject line. Specific, not generic."},
+                "cuerpo": {
+                    "type": "string",
+                    "description": (
+                        "The message. Every factual claim about the business "
+                        "must come from a passage you retrieved — if you did "
+                        "not retrieve it, do not write it. Write in the "
+                        "language of the enquiry. Ask at most one question."
+                    ),
+                },
+                "chunk_ids": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": (
+                        "The chunk_id of every passage a claim in the body "
+                        "rests on. Empty only if the body makes no factual "
+                        "claim about the business at all."
+                    ),
+                },
+            },
+            "required": ["destinatario", "asunto", "cuerpo"],
+        },
+    },
+}
+
+REDACTAR_EVENTO = {
+    "type": "function",
+    "function": {
+        "name": "redactar_evento",
+        "description": (
+            "Drafts the calendar entry holding the assessment visit. It is NOT "
+            "created: Ronald approves it first. Only propose a start time you "
+            "saw in `leer_calendario` — inventing availability books Ronald "
+            "into a slot he is already working."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "inicio": {"type": "string", "description": "ISO 8601 start, Providence time. E.g. 2026-09-08T09:00:00-04:00"},
+                "fin": {"type": "string", "description": "ISO 8601 end. An assessment visit is usually 1 to 1.5 hours."},
+                "titulo": {"type": "string", "description": "E.g. 'Assessment visit - Owen Delacroix, Newport'."},
+                "descripcion": {"type": "string", "description": "What Ronald needs to know before he arrives."},
+            },
+            "required": ["inicio", "fin", "titulo"],
+        },
+    },
+}
