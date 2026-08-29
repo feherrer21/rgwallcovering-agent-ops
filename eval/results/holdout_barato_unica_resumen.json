@@ -1,0 +1,119 @@
+{
+  "aciertos_estrictos": 4,
+  "aciertos_con_alternativas": 4,
+  "herramienta_requerida_ok": 1,
+  "herramienta_requerida_total": 1,
+  "inestables": [
+    [
+      "L15",
+      [
+        "escalar_a_ronald",
+        "preparar_correo_pregunta"
+      ]
+    ]
+  ],
+  "coincide_con_baseline": 2,
+  "detalle": [
+    {
+      "lead_id": "L03",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "escalar_a_ronald",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L07",
+      "esperado": "preparar_correo_visita",
+      "agente": "escalar_a_ronald",
+      "baseline": "preparar_correo_visita",
+      "estricto": false,
+      "con_alternativas": false,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L10",
+      "esperado": "preparar_correo_pregunta",
+      "agente": "preparar_correo_pregunta",
+      "baseline": "preparar_correo_pregunta",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_pregunta",
+        "preparar_correo_pregunta"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L13",
+      "esperado": "preparar_correo_pregunta",
+      "agente": "preparar_correo_pregunta",
+      "baseline": "preparar_correo_visita",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_pregunta",
+        "preparar_correo_pregunta"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L15",
+      "esperado": "preparar_correo_visita",
+      "agente": "escalar_a_ronald",
+      "baseline": "preparar_correo_visita",
+      "estricto": false,
+      "con_alternativas": false,
+      "inestable": true,
+      "acciones": [
+        "escalar_a_ronald",
+        "preparar_correo_pregunta"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L17",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "preparar_correo_pregunta",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    }
+  ],
+  "n": 6,
+  "acuerdo_con_baseline": 0.333,
+  "baseline_aciertos": 4
+}

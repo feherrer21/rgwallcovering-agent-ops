@@ -35,7 +35,8 @@ code.
 | `b30cf90` | Phase 3: the human gate |
 | `32f6309` | Phase 4: durable memory |
 | `5ce2485` | Phase 5: failure handling |
-| _this_ | Phase 6 + 8: evaluation, baseline, async suite. 78 tests passing |
+| `626606d` | Phase 6 + 8: evaluation, baseline, async suite |
+| _this_ | Phase 9: holdout run, and a reverted prompt fix |
 
 ## Submission checklist coverage
 
@@ -63,8 +64,8 @@ Status is against the real checklist, not against phases.
 
 | Item | Status | Where |
 |---|---|---|
-| Evaluation against defined criteria | **design set done** | `evidence/04`. Falsifier did not fire (64% vs the 90% threshold), but the baseline outscored the agent. Holdout is Phase 9 |
-| Cases it gets wrong, ≥2 mechanistic | **5 recorded** | `evidence/00`, `02`, `03`, `04` (L16 and L19 over-escalation). Full analysis after Phase 9 |
+| Evaluation against defined criteria | **done** | `evidence/04` (design, 12/14) and `evidence/06` (holdout, 4/6). Agreement with the baseline: 64% design, **33% holdout** — the falsifier is further from firing on unseen data |
+| Cases it gets wrong, ≥2 mechanistic | **done** | Over-escalation explained mechanistically and shown to generalise to unseen leads including a clean control (`evidence/04`, `06`); plus `00`, `02`, `03`, and a fix that was measured and reverted (`05`) |
 | Deliberate failure injection | **done** | `INYECTAR_FALLO`; the planned one was defeated by the agent and replaced — `evidence/03` |
 | `pytest-asyncio` suite, passing output | **done** | `tests/test_async.py`, 7 async tests over the loop, tool mocking and the recovery path |
 | Observability evidence | **partial** | step traces in `agente/traza.py`, written per run; Portkey side pending |
@@ -78,7 +79,7 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 14 of 17.** What remains: the holdout run (once), the observability evidence from Portkey, and the four Communicate items.  The decision loop runs end to
+**Done: 15 of 17.** What remains: observability evidence from the Portkey dashboard (needs a screenshot only Fabián can take), and the four Communicate items.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
