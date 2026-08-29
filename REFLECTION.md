@@ -9,9 +9,9 @@ or hand the lead over — and stops before anything a customer would see. Four
 tools, two read-only and two behind a human gate. LangGraph over Portkey, on
 `gemini-2.5-flash`.
 
-The user is Ronald, not the visitor. The certified L1 project serves visitors and
-stops when the enquiry reaches his inbox — which is where the cost sits: it then
-waits on a person who is on a ladder.
+The user is Ronald, not the visitor. The L1 project serves visitors and stops
+when the enquiry reaches his inbox — where the cost sits: it then waits on a
+person who is on a ladder.
 
 ## Why an agent, and the test I set to prove it wasn't one
 
@@ -57,9 +57,9 @@ Worse: `decidir` appended an assistant message containing a `tool_call` with no
 tool result answering it. A malformed conversation doesn't raise and doesn't fail
 the same way twice — it degrades behaviour indistinguishably from an unreliable
 model. I measured three runs, saw two different actions, and wrote it up as model
-non-determinism, citing the predecessor's genuine coin-flip finding as support.
-**It was my bug.** A test asserting every `tool_call` has a matching response
-found a second instance I'd missed; with both fixed, four runs agreed.
+non-determinism, citing the predecessor's coin-flip finding as support. **It was
+my bug.** A test asserting every `tool_call` has a matching response found a
+second instance I'd missed; with both fixed, four runs agreed.
 
 And my evaluation could not score its own zero-tolerance criterion: the runner
 never saved draft bodies, so S1 had only a boolean to work from.
@@ -67,8 +67,8 @@ never saved draft bodies, so S1 had only a boolean to work from.
 **My failure injection was defeated.** `L20` carries a reserved-TLD recipient so
 approving would produce a real SMTP rejection. The agent recognised the
 unresolvable domain by inspection and escalated without trying — better than the
-test wanted, useless as a demonstration. I replaced it by breaking the transport,
-at a point that doesn't exist until the action executes.
+test wanted, useless as a demonstration. I replaced it by breaking the transport
+at a point that doesn't exist until the action runs.
 
 ## How I fixed what I fixed
 
@@ -90,15 +90,17 @@ is 80% actionable and 20% unanswerable has no move meaning "do the 80%, flag the
 20%", so the 20% takes the whole lead. That is architecture.
 
 I would also stop assuming the expensive model is better. `claude-opus-5` cost
-3.7× the tokens, took 2.3× as long, and scored one lead *lower*, because it
-escalates more — and escalating more is the failure mode.
+3.7× the tokens and scored one lead *lower* — which at n=14 means
+indistinguishable, not worse. Enough to reject the cost; not enough to claim the
+cheap model wins. I ran it once against the other's twice and never adapted the
+prompt to it.
 
 ## Business impact
 
-Stated honestly: measured accuracy does not yet beat four `if` statements. What
-the agent buys is resistance to injected instructions and a contradiction check
-that is semantic rather than lexical — `L03` was held out to catch a keyword
-shortcut, and the agent caught a claim in which the word "visit" never appears.
+Stated honestly: measured accuracy does not beat four `if` statements. What the
+agent buys is resistance to injected instructions and a contradiction check that
+is semantic rather than lexical — `L03` was held out to catch a keyword shortcut,
+and the agent caught a claim in which "visit" never appears.
 
 All four real seed enquiries were told the
 assessment visit was free because they were nearby. The owner corrected that on

@@ -82,7 +82,7 @@ a handoff, even when enough is confirmable to act*.
 Measured rate: **2 of 14 on the cheap model, 3 of 14 on the frontier model.**
 Escalations overall: 57% of runs on the cheap model, 64% on the frontier.
 
-## 4. The expensive model is worse here, and the reason is mechanical
+## 4. The expensive model bought nothing measurable here
 
 | | `gemini-2.5-flash` | `claude-opus-5` | ratio |
 |---|---|---|---|
@@ -96,18 +96,38 @@ Escalations overall: 57% of runs on the cheap model, 64% on the frontier.
 `claude-opus-5` is the model the certified L1 project ran on, so this is a
 comparison against a known, graded baseline rather than an arbitrary one.
 
-It costs 3.7× the tokens, takes 2.3× as long, and **scores one lead lower**. The
-extra caution goes in the wrong direction for this product: it escalates more,
-and escalating more is precisely the failure mode. It uniquely escalated `L05`
-— a lead with measurements, a style, both contact channels and no deadline
-pressure — which is about as clean as the set gets.
+It costs 3.7× the tokens, takes 2.3× as long, and scores one lead lower.
 
-This is not "the bigger model is worse at reasoning". It is that **the axis this
-task rewards is willingness to act on incomplete information**, and the more
-cautious model is further from that, not closer.
+**How far that claim goes, precisely.** One lead on fourteen is *not*
+significant — `02_data_provenance.md` §2.3 said so before any measurement
+existed, and it applies here even though the direction is convenient. The
+frontier model also ran **one** repetition against the cheap model's two, so
+there is no stability figure for it at all.
 
-**Decision: the cheap model stays.** Not as a cost compromise — it is the better
-model for this job on this set, and it happens to be cheaper.
+The defensible statement is therefore **not** "the cheap model is better". It is:
+the two are indistinguishable on accuracy at this sample size, and one of them
+costs 3.7× more. That alone settles the choice.
+
+What is more than noise is the *direction*: the frontier model escalates more
+(64% of runs against 57%) and uniquely escalated `L05` — measurements, a style,
+both contact channels, no deadline pressure, about as clean as the set gets.
+That is consistent with the accuracy difference and with a mechanism rather than
+with chance, but two consistent signals on a set of fourteen are a hypothesis,
+not a result.
+
+This is not "the bigger model reasons worse". It reasoned visibly *better* in two
+places: it decomposed a compound claim into two queries where the cheap model
+collapsed them and lost the passage (`evidence/00`), and it articulated the `L12`
+refusal better than anything else measured (§5b). **The axis this task rewards is
+willingness to act on incomplete information**, which is a disposition rather than
+a capability, and the more cautious model sits further from it.
+
+**Untested, and worth naming:** no prompt adaptation was attempted for the
+frontier model. Its caution might well be correctable with different
+instructions. "Worse for this task" is under-measured, not established.
+
+**Decision: the cheap model stays** — because the expensive one demonstrably did
+not earn its cost, not because it was shown to be worse.
 
 ## 5. Stability
 
