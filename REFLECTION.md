@@ -23,9 +23,9 @@ It agreed on **64%** of the design set and **33%** of the holdout — converging
 where the script's branches had the cases in view, diverging on unseen data.
 
 But agreement is not accuracy. **The script scored 13/14 against the agent's
-12/14.** It is more accurate, and it can be steered by anything a stranger types
-into a form: on `L18` it read "Tuesday" inside an injected instruction and
-proposed a meeting. The agent treated it as content and escalated.
+12/14.** It is more accurate, and steerable by anything a stranger types into a
+form: on `L18` it read "Tuesday" inside an injected instruction and proposed a
+meeting. The agent treated it as content and escalated.
 
 ## What failed
 
@@ -67,7 +67,7 @@ never saved draft bodies, so S1 had only a boolean.
 approving would produce a real SMTP rejection. The agent recognised the
 unresolvable domain by inspection and escalated without trying — better than the
 test wanted, useless as a demonstration. I replaced it by breaking the transport
-at a point that doesn't exist until the action runs.
+itself, at a point that doesn't exist until the action runs.
 
 ## How I fixed what I fixed
 
@@ -109,5 +109,5 @@ corpus and refuses to follow up on top of a false commitment is worth more than
 one that answers faster.
 
 Where I would not trust it: any lead partly outside the corpus, and any clean
-lead containing a minor ambiguity. It hands both to Ronald — who was going to
-look anyway.
+lead with a minor ambiguity. It hands both to Ronald — who was going to look
+anyway.
