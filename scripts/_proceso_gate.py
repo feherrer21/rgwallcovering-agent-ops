@@ -37,7 +37,7 @@ class LLMCanned:
                         "destinatario": "persistencia@example.com",
                         "asunto": "Your enquiry",
                         "cuerpo": "Drafted before the process died.",
-                        "chunk_ids": ["s0-ronald-001"],
+                        "chunk_ids": [],
                     },
                     "id": "r1"}])
         return AIMessage(content="", tool_calls=[{

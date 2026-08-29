@@ -105,6 +105,23 @@ def _mensaje(exc: ValidationError) -> str:
     return "; ".join(partes)
 
 
+def validar_citas(chunk_ids, disponibles: set[str]) -> None:
+    """Rechaza una cita a un fragmento que no existe.
+
+    No se confia en la salida del modelo tampoco aqui. Una cita inventada es
+    peor que ninguna: crea la apariencia de trazabilidad, que es exactamente lo
+    que el criterio S1 existe para que sea real.
+    """
+    inventadas = [c for c in (chunk_ids or ()) if c not in disponibles]
+    if inventadas:
+        raise ErrorDeValidacion(
+            f"chunk_ids: {inventadas} do not exist in the corpus. Copy the "
+            "identifier exactly from the `chunk_id:` line of the passage you "
+            "used, or cite nothing if the text makes no claim about the "
+            "business."
+        )
+
+
 def validar_borrador(tipo: str, datos: dict) -> BorradorCorreo | BorradorEvento:
     """Valida el borrador antes de que llegue al gate.
 

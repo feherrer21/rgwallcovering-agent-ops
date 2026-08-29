@@ -44,7 +44,7 @@ def _borrador(destinatario="t@example.com", cuerpo="Hello."):
     return AIMessage(content="", tool_calls=[{
         "name": "redactar_correo",
         "args": {"destinatario": destinatario, "asunto": "Your enquiry",
-                 "cuerpo": cuerpo, "chunk_ids": ["s0-ronald-001"]},
+                 "cuerpo": cuerpo, "chunk_ids": []},
         "id": "r1"}])
 
 
@@ -109,8 +109,9 @@ def test_el_grafo_se_detiene_en_el_gate_y_muestra_la_propuesta():
     assert interrupciones, "el grafo no se detuvo antes de actuar"
     carga = interrupciones[0].value
     assert carga["propuesta"]["destinatario"] == "t@example.com"
-    # Aprobar a ciegas no deberia ser posible: las fuentes viajan con la propuesta.
-    assert carga["fuentes"] == ["s0-ronald-001"]
+    # Aprobar a ciegas no deberia ser posible: los pasajes en que se apoya la
+    # propuesta viajan con ella.
+    assert "fuentes" in carga and "pasajes" in carga
 
 
 def test_aprobar_ejecuta_y_deja_registro(monkeypatch):

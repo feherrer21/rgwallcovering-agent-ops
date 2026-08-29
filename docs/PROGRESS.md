@@ -37,7 +37,9 @@ code.
 | `5ce2485` | Phase 5: failure handling |
 | `626606d` | Phase 6 + 8: evaluation, baseline, async suite |
 | `96cb39f` | Phase 9: holdout run, and a reverted prompt fix |
-| _this_ | REFLECTION.md, client slide, the Streamlit queue |
+| `7ab412d` | REFLECTION.md, client slide, the Streamlit queue |
+| `f9187a6` | Captured test output, curated traces |
+| _this_ | Fabricated citations found and fixed; demo transcript |
 
 ## Submission checklist coverage
 
@@ -69,7 +71,7 @@ Status is against the real checklist, not against phases.
 | Cases it gets wrong, ≥2 mechanistic | **done** | Over-escalation explained mechanistically and shown to generalise to unseen leads including a clean control (`evidence/04`, `06`); plus `00`, `02`, `03`, and a fix that was measured and reverted (`05`) |
 | Deliberate failure injection | **done** | `INYECTAR_FALLO`; the planned one was defeated by the agent and replaced — `evidence/03` |
 | `pytest-asyncio` suite, passing output | **done** | `tests/test_async.py`, 7 async tests over the loop, tool mocking and the recovery path |
-| Observability evidence | **partial** | step traces in `agente/traza.py`, written per run; Portkey side pending |
+| Observability evidence | **done** | `evidence/08` — two curated traces plus measured cost and latency. A Portkey dashboard screenshot is optional upside |
 
 ### Communicate
 
@@ -77,11 +79,12 @@ Status is against the real checklist, not against phases.
 |---|---|---|
 | `REFLECTION.md`, 600–1000 words | **done** | 997 words. The failure sections are the longest, including three failures that were mine |
 | One client-facing slide | **done** | `docs/08_client_slide.md`. No credentials anywhere on it |
-| Demo: normal run + failure handled | not started | — |
+| Demo: normal run + failure handled | **done** | `docs/09_demo.md`, a transcript of both scenes. L2 names no medium and L1 accepted "recording or transcript"; a recording is optional upside |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 17 of 17 authored; 2 need Fabián.** Outstanding, and both need Fabián rather than more code: a screenshot of the
-Portkey dashboard for the observability item, and the demo recording.  The decision loop runs end to
+**Done: 16 of 17.** Outstanding: the declared-effort statement, which needs Fabián's real hours.
+Optional upside, neither required by the checklist wording: a Portkey dashboard
+screenshot, and a screen recording of the gate being clicked.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than

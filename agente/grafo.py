@@ -181,6 +181,10 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
         # decision en ruido.
         try:
             validacion.validar_borrador(tipo, args)
+            validacion.validar_citas(
+                args.get("chunk_ids"),
+                {h.fragmento.chunk_id for h in estado.hallazgos},
+            )
         except validacion.ErrorDeValidacion as exc:
             tz.fallo("preparar", f"borrador invalido: {exc}")
             intentos = dict(estado.intentos)

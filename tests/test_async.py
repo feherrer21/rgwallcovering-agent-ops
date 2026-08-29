@@ -53,7 +53,7 @@ def _borrador(destinatario="t@example.com", cuerpo="Hello there."):
     return AIMessage(content="", tool_calls=[{
         "name": "redactar_correo",
         "args": {"destinatario": destinatario, "asunto": "Your enquiry",
-                 "cuerpo": cuerpo, "chunk_ids": ["s0-ronald-001"]},
+                 "cuerpo": cuerpo, "chunk_ids": []},
         "id": "r1"}])
 
 

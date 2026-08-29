@@ -209,3 +209,31 @@ def test_el_reintento_dice_donde_fallo_no_solo_que_fallo():
     assert "the delivery is what failed" in texto
     assert "TEMPORARY" in texto
     assert "do not tell Ronald something happened that did not" in texto
+
+
+# --- Citas inventadas (docs/evidence/09) ----------------------------------
+
+
+def test_una_cita_a_un_fragmento_inexistente_se_rechaza():
+    """Medido: el modelo cito UUIDs que no existen en el corpus.
+
+    Una cita inventada es peor que ninguna: crea la apariencia de
+    trazabilidad, que es justo lo que S1 existe para que sea real.
+    """
+    with pytest.raises(validacion.ErrorDeValidacion, match="do not exist"):
+        validacion.validar_citas(["613045f2-9844-482a-a28d-1c39050d276f"],
+                                 {"S0-ronald-0000"})
+
+
+def test_citar_nada_es_valido():
+    validacion.validar_citas([], {"S0-ronald-0000"})
+    validacion.validar_citas(None, set())
+
+
+def test_el_modelo_ve_el_chunk_id_que_se_le_pide_citar(corpus_real):
+    """La causa raiz: se le pedia citar un identificador que nunca veia."""
+    from agente import tools
+    pasajes = corpus_real.buscar("is the assessment visit charged")
+    salida = tools.formatear_pasajes(pasajes)
+    for p in pasajes:
+        assert f"chunk_id: {p.fragmento.chunk_id}" in salida

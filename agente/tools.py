@@ -182,7 +182,14 @@ def formatear_pasajes(pasajes: list[corpus.Pasaje]) -> str:
     for p in pasajes:
         f = p.fragmento
         fuente = f"Source: {f.titulo}" + (f" ({f.url})" if f.url else "")
-        bloques.append(f"[{ETIQUETA_TIER[f.tier]}]\n{fuente}\n{f.texto}")
+        # El chunk_id va DENTRO del bloque porque `redactar_correo` lo pide.
+        # Sin enseñárselo, el modelo no puede citarlo y se lo inventa: medido,
+        # produjo UUIDs plausibles que no existen en el corpus. Pedir una cita
+        # sin dar el identificador fabrica trazabilidad falsa, que es peor que
+        # no citar nada. Ver docs/evidence/09_citas_inventadas.md.
+        bloques.append(
+            f"[{ETIQUETA_TIER[f.tier]}]\nchunk_id: {f.chunk_id}\n{fuente}\n{f.texto}"
+        )
 
     return _CABECERA + "\n\n---\n\n".join(bloques)
 
@@ -261,7 +268,11 @@ REDACTAR_CORREO = {
                     "items": {"type": "string"},
                     "description": (
                         "The chunk_id of every passage a claim in the body "
-                        "rests on. Empty only if the body makes no factual "
+                        "rests on, copied EXACTLY from the `chunk_id:` line of "
+                        "the passage you used. Do not invent, guess or "
+                        "reformat one — an identifier that does not exist is "
+                        "worse than no citation, because it looks auditable "
+                        "and is not. Empty only if the body makes no factual "
                         "claim about the business at all."
                     ),
                 },
