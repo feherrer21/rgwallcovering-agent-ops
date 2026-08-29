@@ -1,6 +1,10 @@
 # Orquestación del agente
 langgraph>=0.2
 langgraph-checkpoint-sqlite>=2.0
+# SqliteSaver no implementa metodos async y levanta NotImplementedError ante
+# ainvoke. Un frontend asincrono se quedaria sin checkpointer duradero, y por
+# tanto sin gate que sobreviva a un reinicio.
+aiosqlite>=0.20
 
 # Pasarela de modelos. Cliente compatible OpenAI apuntando al gateway de
 # Perficient, con las cabeceras de Portkey. Ver 03_spec.md §8.

@@ -50,3 +50,6 @@ docs/RGWallcovering_L2_LeadAgent_HANDOFF.md
 
 # Entorno virtual
 .venv/
+
+# Los resultados de evaluacion SI se versionan: son la evidencia. Los
+# borradores que contienen son para personas sinteticas.

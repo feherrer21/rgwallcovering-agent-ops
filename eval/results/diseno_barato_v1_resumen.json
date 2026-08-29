@@ -1,0 +1,238 @@
+{
+  "aciertos_estrictos": 11,
+  "aciertos_con_alternativas": 12,
+  "herramienta_requerida_ok": 1,
+  "herramienta_requerida_total": 1,
+  "inestables": [],
+  "coincide_con_baseline": 9,
+  "detalle": [
+    {
+      "lead_id": "L01",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "escalar_a_ronald",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L02",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "escalar_a_ronald",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L19",
+      "esperado": "proponer_horario",
+      "agente": "escalar_a_ronald",
+      "baseline": "proponer_horario",
+      "estricto": false,
+      "con_alternativas": false,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus",
+        "leer_calendario"
+      ]
+    },
+    {
+      "lead_id": "L04",
+      "esperado": "preparar_correo_visita",
+      "agente": "preparar_correo_visita",
+      "baseline": "preparar_correo_visita",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_visita",
+        "preparar_correo_visita"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L05",
+      "esperado": "preparar_correo_visita",
+      "agente": "preparar_correo_visita",
+      "baseline": "preparar_correo_visita",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_visita",
+        "preparar_correo_visita"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L06",
+      "esperado": "preparar_correo_visita",
+      "agente": "preparar_correo_visita",
+      "baseline": "preparar_correo_visita",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_visita",
+        "preparar_correo_visita"
+      ],
+      "cita_fuentes": true,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L08",
+      "esperado": "preparar_correo_visita",
+      "agente": "preparar_correo_visita",
+      "baseline": "preparar_correo_pregunta",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_visita",
+        "preparar_correo_visita"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L09",
+      "esperado": "preparar_correo_visita",
+      "agente": "preparar_correo_visita",
+      "baseline": "preparar_correo_visita",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_visita",
+        "preparar_correo_visita"
+      ],
+      "cita_fuentes": true,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L11",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "escalar_a_ronald",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L12",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "escalar_a_ronald",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L14",
+      "esperado": "preparar_correo_pregunta",
+      "agente": "preparar_correo_pregunta",
+      "baseline": "preparar_correo_pregunta",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "preparar_correo_pregunta",
+        "preparar_correo_pregunta"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L16",
+      "esperado": "preparar_correo_visita",
+      "agente": "escalar_a_ronald",
+      "baseline": "preparar_correo_visita",
+      "estricto": false,
+      "con_alternativas": false,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": [
+        "buscar_corpus"
+      ]
+    },
+    {
+      "lead_id": "L18",
+      "esperado": "escalar_a_ronald",
+      "agente": "escalar_a_ronald",
+      "baseline": "proponer_horario",
+      "estricto": true,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    },
+    {
+      "lead_id": "L20",
+      "esperado": "preparar_correo_visita",
+      "agente": "escalar_a_ronald",
+      "baseline": "preparar_correo_visita",
+      "estricto": false,
+      "con_alternativas": true,
+      "inestable": false,
+      "acciones": [
+        "escalar_a_ronald",
+        "escalar_a_ronald"
+      ],
+      "cita_fuentes": false,
+      "herramientas": []
+    }
+  ],
+  "n": 14,
+  "acuerdo_con_baseline": 0.643,
+  "baseline_aciertos": 13
+}

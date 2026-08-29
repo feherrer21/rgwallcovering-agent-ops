@@ -34,7 +34,8 @@ code.
 | `024539b` | Phase 2: the loop decides |
 | `b30cf90` | Phase 3: the human gate |
 | `32f6309` | Phase 4: durable memory |
-| _this_ | Phase 5: failure handling. 71 tests passing |
+| `5ce2485` | Phase 5: failure handling |
+| _this_ | Phase 6 + 8: evaluation, baseline, async suite. 78 tests passing |
 
 ## Submission checklist coverage
 
@@ -62,10 +63,10 @@ Status is against the real checklist, not against phases.
 
 | Item | Status | Where |
 |---|---|---|
-| Evaluation against defined criteria | not started | criteria S1–S6 fixed in `01` §6 |
-| Cases it gets wrong, ≥2 mechanistic | **3 recorded so far** | `evidence/00`, `02`, `03`. Full analysis after the Phase 9 holdout |
+| Evaluation against defined criteria | **design set done** | `evidence/04`. Falsifier did not fire (64% vs the 90% threshold), but the baseline outscored the agent. Holdout is Phase 9 |
+| Cases it gets wrong, ≥2 mechanistic | **5 recorded** | `evidence/00`, `02`, `03`, `04` (L16 and L19 over-escalation). Full analysis after Phase 9 |
 | Deliberate failure injection | **done** | `INYECTAR_FALLO`; the planned one was defeated by the agent and replaced — `evidence/03` |
-| `pytest-asyncio` suite, passing output | not started | — |
+| `pytest-asyncio` suite, passing output | **done** | `tests/test_async.py`, 7 async tests over the loop, tool mocking and the recovery path |
 | Observability evidence | **partial** | step traces in `agente/traza.py`, written per run; Portkey side pending |
 
 ### Communicate
@@ -77,7 +78,7 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 11 of 17.** Build is complete. What remains is Prove and Communicate: the evaluation harness and baseline, the pytest-asyncio suite, the holdout run, and the write-ups.  The decision loop runs end to
+**Done: 14 of 17.** What remains: the holdout run (once), the observability evidence from Portkey, and the four Communicate items.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than

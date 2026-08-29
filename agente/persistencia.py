@@ -23,6 +23,7 @@ from typing import Any
 
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
 from .config import ajustes
 
@@ -59,6 +60,23 @@ def checkpointer(ruta=None) -> SqliteSaver:
     # acceso sigue siendo secuencial, no hay concurrencia real que proteger.
     conn = sqlite3.connect(str(ruta), check_same_thread=False)
     return SqliteSaver(conn, serde=serializador())
+
+
+async def checkpointer_async(ruta=None) -> AsyncSqliteSaver:
+    """Version asincrona del mismo almacen.
+
+    Hace falta de verdad, no por simetria: `SqliteSaver` levanta
+    NotImplementedError ante cualquier metodo async, asi que un frontend que
+    use `ainvoke` -lo natural cuando el gate deja el grafo esperando a una
+    persona- se queda sin checkpointer duradero y por tanto sin gate que
+    sobreviva a un reinicio. Se descubrio al escribir la suite asincrona.
+    """
+    import aiosqlite
+
+    ruta = ruta or ajustes.checkpoint_db
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    conn = await aiosqlite.connect(str(ruta))
+    return AsyncSqliteSaver(conn, serde=serializador())
 
 
 # --- Ledger ---------------------------------------------------------------
