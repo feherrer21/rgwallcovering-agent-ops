@@ -370,9 +370,14 @@ Two consequences, and both matter:
 Free-tier apps sleep. The L1 evaluator reached a sleeping app and got a 303, and
 the submission carried that cost for something unrelated to the work.
 
-The demo required by the checklist is therefore a **recording** of a normal run
-and a handled failure. The live deployment exists for Ronald, not for grading,
-so app availability cannot damage the submission.
+The demo is therefore an artefact that lives in the repository rather than a
+live URL. **Corrected 2026-08-28:** this section originally said "a recording".
+The L2 checklist names no medium — it asks for "a demo showing both a normal run
+and a failure being handled" — and the L1 checklist for the same programme
+accepted "recording **or** transcript". The deliverable is a transcript
+(`09_demo.md`): it is in the repository the evaluator clones, it is diffable,
+and it cannot be unavailable on the day. A recording remains upside, not a gap;
+the one thing it would add is a person visibly clicking approve.
 
 ## 13. Out of scope for this spec
 

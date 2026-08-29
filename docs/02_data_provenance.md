@@ -238,8 +238,18 @@ distinct people**. They contain names, email, a phone number, and in one case a
   leads never has to be weakened to publish synthetic ones.
 - **Contact details are non-routable by construction.** Every address uses
   `example.com` or `example.invalid` (RFC 6761 reserved), and every phone number
-  is in the `555-01xx` reserved range. Nothing in this repository can reach a
-  real person if it is executed by mistake.
+  is in the `555-01xx` reserved range. **No address the system would ever send
+  to can reach a real person**, so a slip during development cannot become a
+  message to a stranger.
+
+  Precisely stated, because the looser version was wrong: one routable address
+  does appear in the repository, inside a committed evaluation result. It is in
+  the *model's own reasoning* on `L12`, where it names the address it is
+  declining to guess — "I'm not going to assume `j.torres@gmail.com`, that guess
+  could land in a stranger's inbox." It is not a contact for anyone and the
+  system never sends to it. It is left in place rather than redacted: editing
+  evaluation output to tidy a claim would be tampering with the evidence, and
+  the claim is what needed narrowing.
 - **Never logged.** Lead contents do not go to logs, and `traces/` is
   gitignored because step traces can contain conversation content. Observability
   evidence that ships is curated by hand into `docs/evidence/`.

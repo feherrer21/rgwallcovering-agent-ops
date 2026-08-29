@@ -41,7 +41,9 @@ code.
 | `f9187a6` | Captured test output, curated traces |
 | `e98f9d8` | Fabricated citations found and fixed; demo transcript |
 | `cfad700` | Declared-effort statement |
-| _this_ | Effort total confirmed at 13h15–14h15 |
+| `16654c3` | Effort total confirmed at 13h15–14h15 |
+| `7bfd380` | README |
+| _this_ | Final review: consolidated failure analysis, three corrections |
 
 ## Submission checklist coverage
 
@@ -117,10 +119,10 @@ only.
 
 ## Open decisions
 
-- **Blind-authored leads.** Offered: Fabián writes 2–3 cases into
-  `eval/leads_blind.jsonl` that Claude Code never reads, making part of the
-  holdout genuinely blind rather than pre-registered. Recorded as outstanding in
-  `02` §2.4. Not taken up yet.
+- **Blind-authored leads — offered, not taken up.** Fabián writing 2–3 cases
+  that Claude Code never reads would make part of the holdout genuinely blind
+  rather than pre-registered. No such file exists; the offer stands and is
+  recorded as outstanding in `02` §2.4 rather than quietly dropped.
 - **SMTP account for the email tool.** Reuse of the L1 test mailbox is assumed
   but not confirmed; it must not be Ronald's address.
 (none blocking.)

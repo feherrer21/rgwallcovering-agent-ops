@@ -22,7 +22,8 @@ If you are evaluating this, three files carry most of it:
 |---|---|
 | [`REFLECTION.md`](REFLECTION.md) | What was built, what failed, what I would do differently. 997 words. |
 | [`docs/09_demo.md`](docs/09_demo.md) | The demo: a normal run and a failure being handled, as real transcript output. |
-| [`docs/evidence/`](docs/evidence/) | Ten notes. Four of them document defects that were mine, not the model's. |
+| [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) | Everything it gets wrong, in one place, with mechanisms. |
+| [`docs/evidence/`](docs/evidence/) | Ten notes behind that analysis. Four document defects that were mine, not the model's. |
 
 ## The headline result, stated plainly
 
@@ -70,7 +71,7 @@ a completely clean lead over a date ambiguous by a year (`evidence/06` §3).
 | Item | Where |
 |---|---|
 | Evaluation against defined criteria | [`eval/rubric.md`](eval/rubric.md) (written before the first run), results in [`eval/results/`](eval/results/) |
-| Cases it gets wrong, ≥2 mechanistic | [`evidence/04`](docs/evidence/04_evaluacion_diseno.md) §3 and [`evidence/06`](docs/evidence/06_holdout.md) §3 |
+| Cases it gets wrong, ≥2 mechanistic | [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) — consolidated, with `evidence/00`–`09` behind it |
 | Deliberate failure injection | [`evidence/03`](docs/evidence/03_inyeccion_de_fallo.md) — the *planned* one was defeated by the agent and replaced |
 | `pytest-asyncio` suite, passing output | [`tests/test_async.py`](tests/test_async.py); captured output in [`evidence/07`](docs/evidence/07_suite_tests.md) |
 | Observability evidence | [`evidence/08`](docs/evidence/08_observabilidad.md) — curated traces plus measured cost and latency |
@@ -138,8 +139,12 @@ Twenty lead records, committed before any agent code existed. Two derive from
 real enquiries and are replaced by synthetic stand-ins **before entering the
 pipeline** — real customer data does not belong in a coursework prompt. Every
 address is on `example.com` or `example.invalid`; every phone number is in the
-`555-01xx` reserved range. Nothing here can reach a real person if it runs by
-mistake.
+`555-01xx` reserved range — **no address the system would send to can reach a
+real person**, so a slip during development cannot become a message to a
+stranger. (One routable address does appear in a committed evaluation result:
+inside the model's own reasoning on `L12`, naming the address it declines to
+guess. Left in place rather than redacted — editing evaluation output to tidy a
+sentence would be tampering with evidence.)
 
 Six of the twenty were held back and run **once**, at the end, with nothing
 tuned afterwards. That commitment, and the one place a fix postdates it, are
