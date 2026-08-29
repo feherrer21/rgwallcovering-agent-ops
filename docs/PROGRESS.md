@@ -40,7 +40,8 @@ code.
 | `7ab412d` | REFLECTION.md, client slide, the Streamlit queue |
 | `f9187a6` | Captured test output, curated traces |
 | `e98f9d8` | Fabricated citations found and fixed; demo transcript |
-| _this_ | Declared-effort statement |
+| `cfad700` | Declared-effort statement |
+| _this_ | Effort total confirmed at 13h15–14h15 |
 
 ## Submission checklist coverage
 
@@ -83,10 +84,9 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | **done** | `docs/09_demo.md`, a transcript of both scenes. L2 names no medium and L1 accepted "recording or transcript"; a recording is optional upside |
 | Declared-effort statement | **done** | `docs/06_effort.md`. Measured from commit timestamps, with the two gaps named and one flagged for Fabián to confirm |
 
-**Done: 17 of 17.** Every checklist item is authored. Two questions in `06_effort.md` need Fabián's
-answer before submission, and neither blocks anything else. Optional upside,
-required by no checklist wording: a Portkey dashboard screenshot, and a screen
-recording of the gate being clicked.  The decision loop runs end to
+**Done: 17 of 17.** Every checklist item is authored and the effort total is confirmed at
+13h15–14h15. Optional upside, required by no checklist wording: a Portkey
+dashboard screenshot, and a screen recording of the gate being clicked.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
@@ -152,5 +152,6 @@ because a number written mid-session and never revised is the exact failure this
 file exists to prevent.
 
 Superseded by `docs/06_effort.md`, which measures from commit timestamps rather
-than from memory. Summary: 11h12 elapsed on 2026-08-28, ≈6h24 measured working
-time, plus 2–3h of design conversation predating this repository.
+than from memory. Summary: 11h12 worked on 2026-08-28 — 6h24 measured from
+commits, 4h48 attested — plus 2–3h of design conversation predating this
+repository. Total ≈13h15–14h15.

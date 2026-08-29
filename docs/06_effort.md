@@ -21,16 +21,20 @@ Every commit in this repository, first to last, on one day:
 | Elapsed span | **11h 12m** |
 | Commits | 25 |
 
-Elapsed span is not worked hours, and is not claimed as such. Two gaps are
-visible in the log and they are not the same kind of gap:
+Two windows in that span produced no commits, and both were worked:
 
-| Gap | Length | What it was |
+| Window | Length | What it was |
 |---|---|---|
-| 11:20 → 12:29 | 1h 09m | **Worked, uncommitted.** Google Cloud console: project, Calendar API, OAuth consent screen, test-user list, credentials. None of it produces a commit. |
-| 13:40 → 18:28 | 4h 48m | **Unknown to this repository.** No commits, no traces written. Fabián to confirm; treated as not worked unless he says otherwise. |
+| 11:20 → 12:29 | 1h 09m | Google Cloud console: project, Calendar API, OAuth consent screen, test-user list, credentials. None of it produces a commit. |
+| 13:40 → 18:28 | 4h 48m | Confirmed worked by Fabián. The repository holds no artefacts from this window — no commits, no traces. |
 
-**Measured working time, excluding the unexplained gap: ≈ 6h 24m.**
-Including the console work, which was real: that figure already contains it.
+**Worked time on 2026-08-28: 11h 12m.**
+
+The second window is stated as attested rather than measured, and the
+distinction is kept deliberately. Commit timestamps are evidence; a person's
+recollection of their own day is testimony. Both are legitimate, they are not
+the same thing, and a reader should be able to tell which is which — that is the
+entire reason this document is structured the way it is.
 
 ## Estimated: what the repository cannot see
 
@@ -39,9 +43,15 @@ Including the console work, which was real: that figure already contains it.
 | Design conversation before this repo existed | **2–3h** | Produced `RGWallcovering_L2_LeadAgent_HANDOFF.md` — scope, framework choice, tool decisions, the L1/L2 boundary argument. Happened in a separate tool with no timestamps available here. |
 | Reading the L1 project to establish what could be reused | included above | Audit of `agente_core/`, the corpus, `leads.jsonl` and the git history |
 
-**Total, measured plus estimated: ≈ 8h 30m – 9h 30m.**
+**Total: ≈ 13h 15m – 14h 15m.**
 
-Stated as a range because one end of it is a memory, not a record.
+| | |
+|---|---|
+| Measured from commits | 6h 24m |
+| Attested, no commits in the window | 4h 48m |
+| Estimated, predating this repository | 2h – 3h |
+
+Stated as a range because one component is an estimate, not a record.
 
 ## Where the time went, by output
 
@@ -89,9 +99,11 @@ real cause as architectural — but if I had reasoned about the action space
 first, I would have reached "this is not a prompt problem" without spending a
 run to find out.
 
-## For Fabián to confirm before submission
+## Outstanding
 
-- The 4h48 gap between 13:40 and 18:28: worked, or not?
-- The 2–3h estimate for the design conversation that produced the handoff.
+The 2–3h estimate for the design conversation that produced the handoff is the
+only figure here still unconfirmed. It is a range rather than a number for that
+reason, and the total moves with it.
 
-Both change the total. Neither should be rounded up on my say-so.
+The 13:40–18:28 window was confirmed as worked by Fabián on 2026-08-28 and the
+total reflects that.
