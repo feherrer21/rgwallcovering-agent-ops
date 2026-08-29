@@ -20,7 +20,7 @@ If you are evaluating this, three files carry most of it:
 
 | | |
 |---|---|
-| [`REFLECTION.md`](REFLECTION.md) | What was built, what failed, what I would do differently. 1000 words. |
+| [`REFLECTION.md`](REFLECTION.md) | What was built, what failed, what I would do differently. 998 words. |
 | [`docs/09_demo.md`](docs/09_demo.md) | The demo: a normal run and a failure being handled, as real transcript output. |
 | [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) | Everything it gets wrong, in one place, with mechanisms. |
 | [`docs/evidence/`](docs/evidence/) | Ten notes behind that analysis. Four document defects that were mine, not the model's. |
@@ -80,7 +80,7 @@ a completely clean lead over a date ambiguous by a year (`evidence/06` §3).
 
 | Item | Where |
 |---|---|
-| `REFLECTION.md`, 600–1000 words | [`REFLECTION.md`](REFLECTION.md) — 1000 |
+| `REFLECTION.md`, 600–998 words | [`REFLECTION.md`](REFLECTION.md) — 998 |
 | One client slide | [`docs/08_client_slide.md`](docs/08_client_slide.md) |
 | Demo: normal run + failure handled | [`docs/09_demo.md`](docs/09_demo.md) |
 | Declared effort | [`docs/06_effort.md`](docs/06_effort.md) — measured from commit timestamps |

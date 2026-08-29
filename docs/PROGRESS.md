@@ -81,7 +81,7 @@ Status is against the real checklist, not against phases.
 
 | Item | Status | Where |
 |---|---|---|
-| `REFLECTION.md`, 600–1000 words | **done** | 1000 words. The failure sections are the longest, including three failures that were mine |
+| `REFLECTION.md`, 600–998 words | **done** | 998 words. The failure sections are the longest, including three failures that were mine |
 | One client-facing slide | **done** | `docs/08_client_slide.md`. No credentials anywhere on it |
 | Demo: normal run + failure handled | **done** | `docs/09_demo.md`, a transcript of both scenes. L2 names no medium and L1 accepted "recording or transcript"; a recording is optional upside |
 | Declared-effort statement | **done** | `docs/06_effort.md`. Measured from commit timestamps, with the two gaps named and one flagged for Fabián to confirm |

@@ -33,15 +33,16 @@ why. Nothing reaches a customer without you.
 
 ### What it caught in your real enquiries
 
-All four enquiries captured so far were told **the assessment visit was free
-because the customer was nearby**.
+**Every enquiry the website assistant has captured** was told the assessment
+visit was free because the customer was nearby.
 
 It is not free. It is **$300, the same for everyone, distance does not change it**
 — you confirmed that on 14 August.
 
-Four people are holding a promise the business will not honour. The assistant
-reads a record, sees the contradiction against your own confirmed answer, and
-**refuses to follow up on top of it** — it brings it to you instead.
+Most of those records are test enquiries with invented names. **At least one is a
+real person**, and she is holding a promise the business will not honour. The
+assistant reads a record, sees the contradiction against your own confirmed
+answer, and **refuses to follow up on top of it** — it brings it to you instead.
 
 That is the single most useful thing it does, and it needed no new information:
 it was already sitting in the records.
@@ -56,8 +57,8 @@ it was already sitting in the records.
 | Contradictions against your own answers | Requests you can't meet exactly |
 | Messages with instructions hidden in them | Anything ambiguous, even slightly |
 
-Measured on 20 test enquiries: it is **cautious to a fault**. It sent one clean
-enquiry to me that it could have handled, because a date was ambiguous by a
+Measured on 20 test enquiries: it is **cautious to a fault**. It handed you one
+clean enquiry it could have dealt with itself, because a date was ambiguous by a
 year. It will not embarrass you with a customer — but it will pass you work you
 could have been spared. That is the next thing to fix, and it is in the plan.
 
@@ -65,9 +66,11 @@ could have been spared. That is the next thing to fix, and it is in the plan.
 
 ### What it costs and what it needs
 
-- Runs on a small, fast model. **Roughly a cent per enquiry.**
-- The bigger, more expensive model was tested and did **worse** — it hands over
-  even more often.
+- Runs on a small, fast model: **under 4,000 words of processing per enquiry**,
+  measured. I have not put a currency figure on that, because I would be
+  estimating it rather than reading it off a bill.
+- A far more expensive model was tested and did **not do better** — it hands
+  over even more often, at roughly four times the cost.
 - Access is password-protected. Your calendar is a **separate** one, not your
   personal diary.
 

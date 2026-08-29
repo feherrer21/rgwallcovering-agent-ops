@@ -212,9 +212,23 @@ visit beats asking a question — the reasoning is in the record.
 
 ### 3.1 The real seed records
 
-Four real captured enquiries exist from the L1 deployment, covering **two
-distinct people**. They contain names, email, a phone number, and in one case a
-**street address**. All four contain the false free-visit promise from §1.3.
+Four captured enquiries exist from the L1 deployment. **Corrected 2026-08-28:**
+this section originally called all four "real", covering two distinct people.
+Checked against the records, that is wrong:
+
+| Records | Name | Status |
+|---|---|---|
+| 3 | Ana Ruiz | **Synthetic** — one of the six personas in L1's evaluation runs. One of the three is explicitly marked *"PRUEBA DE ENTREGA — no es un cliente real"*. |
+| 1 | (stand-in `Carmen Duarte`) | The only record not matching a synthetic persona: a real street address and an international mobile. Treated as **a real person**. |
+
+So: **four records, at most one real person.** The error came from counting
+records and calling them people. All four contain the false free-visit promise
+from §1.3, and that part was never in doubt — it is a property of the records,
+not of how many humans are behind them.
+
+The handling below is unchanged and was always correct: the record is replaced
+by a synthetic stand-in before entering the pipeline regardless of which of the
+two it is.
 
 ### 3.2 How they are handled
 
