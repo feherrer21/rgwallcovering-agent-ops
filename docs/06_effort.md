@@ -1,0 +1,97 @@
+# Declared effort
+
+**Date:** 2026-08-28
+
+The checklist asks for approximate hours and what was cut. Below, what is
+**measured** is separated from what is **estimated**, because the predecessor
+project recorded a session as 6h26 when it ran 8h49 — a figure written
+mid-session and never revised, in the document whose subject was honest
+measurement. The separation is the point.
+
+---
+
+## Measured: commit timestamps
+
+Every commit in this repository, first to last, on one day:
+
+| | |
+|---|---|
+| First commit | 2026-08-28 **09:01** |
+| Last commit | 2026-08-28 **20:13** |
+| Elapsed span | **11h 12m** |
+| Commits | 25 |
+
+Elapsed span is not worked hours, and is not claimed as such. Two gaps are
+visible in the log and they are not the same kind of gap:
+
+| Gap | Length | What it was |
+|---|---|---|
+| 11:20 → 12:29 | 1h 09m | **Worked, uncommitted.** Google Cloud console: project, Calendar API, OAuth consent screen, test-user list, credentials. None of it produces a commit. |
+| 13:40 → 18:28 | 4h 48m | **Unknown to this repository.** No commits, no traces written. Fabián to confirm; treated as not worked unless he says otherwise. |
+
+**Measured working time, excluding the unexplained gap: ≈ 6h 24m.**
+Including the console work, which was real: that figure already contains it.
+
+## Estimated: what the repository cannot see
+
+| | Estimate | Basis |
+|---|---|---|
+| Design conversation before this repo existed | **2–3h** | Produced `RGWallcovering_L2_LeadAgent_HANDOFF.md` — scope, framework choice, tool decisions, the L1/L2 boundary argument. Happened in a separate tool with no timestamps available here. |
+| Reading the L1 project to establish what could be reused | included above | Audit of `agente_core/`, the corpus, `leads.jsonl` and the git history |
+
+**Total, measured plus estimated: ≈ 8h 30m – 9h 30m.**
+
+Stated as a range because one end of it is a memory, not a record.
+
+## Where the time went, by output
+
+Line counts are a poor proxy for effort and are given only to show the shape:
+
+| Area | Lines | Notes |
+|---|---|---|
+| `docs/` (specs + evidence) | 2,765 | Ten evidence notes, four of which record my own errors |
+| `agente/` | 2,469 | Graph, tools, state, validation, persistence, escalation |
+| `eval/` | 1,494 | Runner, baseline, label normalisation, rubric, results |
+| `tests/` | 1,150 | 81 tests, including the async suite |
+| `scripts/` | 433 | Gateway check, OAuth, calendar seeding, process-boundary helper |
+
+The single largest consumer of time was not building. It was **finding and
+correcting four defects that looked like model behaviour and were mine**:
+malformed conversation history, a stale inherited claim that invalidated a
+label, a recovery message that made the agent misreport what happened, and
+fabricated citations. Each cost between twenty minutes and an hour, and each is
+written up rather than quietly fixed.
+
+## What was cut, and why
+
+Decided in advance in `04_plan.md`, and the order held:
+
+1. **The Streamlit deployment.** The app is written (`app/main.py`) and runs
+   locally; it is not deployed. The graded demo is a transcript (`09_demo.md`),
+   so nothing scored depends on a live URL, and a live free-tier app was a
+   liability in L1 rather than an asset.
+2. **The Portkey dashboard screenshot.** Cost and latency are computed from
+   traces instead. The checklist accepts "Portkey traces… **or equivalent**";
+   the dashboard is stronger and is one SSO login away, but it is not required.
+3. **A screen recording.** Same reasoning as (1). It would add one thing text
+   cannot — a person visibly clicking approve — and that is upside, not a gap.
+
+**Nothing in Prove was cut.** That was the rule set before starting and it held:
+the evaluation, the baseline, the holdout, the failure injection and the test
+suite are all complete.
+
+## What was not cut but should have been attempted differently
+
+The over-escalation fix. I spent time on a prompt change, measured it worse
+(12/14 → 11/14, and 0 → 2 unstable leads), and reverted it. That time was not
+wasted — the negative result is in `evidence/05` and it is what identified the
+real cause as architectural — but if I had reasoned about the action space
+first, I would have reached "this is not a prompt problem" without spending a
+run to find out.
+
+## For Fabián to confirm before submission
+
+- The 4h48 gap between 13:40 and 18:28: worked, or not?
+- The 2–3h estimate for the design conversation that produced the handoff.
+
+Both change the total. Neither should be rounded up on my say-so.

@@ -39,7 +39,8 @@ code.
 | `96cb39f` | Phase 9: holdout run, and a reverted prompt fix |
 | `7ab412d` | REFLECTION.md, client slide, the Streamlit queue |
 | `f9187a6` | Captured test output, curated traces |
-| _this_ | Fabricated citations found and fixed; demo transcript |
+| `e98f9d8` | Fabricated citations found and fixed; demo transcript |
+| _this_ | Declared-effort statement |
 
 ## Submission checklist coverage
 
@@ -80,11 +81,12 @@ Status is against the real checklist, not against phases.
 | `REFLECTION.md`, 600–1000 words | **done** | 997 words. The failure sections are the longest, including three failures that were mine |
 | One client-facing slide | **done** | `docs/08_client_slide.md`. No credentials anywhere on it |
 | Demo: normal run + failure handled | **done** | `docs/09_demo.md`, a transcript of both scenes. L2 names no medium and L1 accepted "recording or transcript"; a recording is optional upside |
-| Declared-effort statement | not started | effort log below |
+| Declared-effort statement | **done** | `docs/06_effort.md`. Measured from commit timestamps, with the two gaps named and one flagged for Fabián to confirm |
 
-**Done: 16 of 17.** Outstanding: the declared-effort statement, which needs Fabián's real hours.
-Optional upside, neither required by the checklist wording: a Portkey dashboard
-screenshot, and a screen recording of the gate being clicked.  The decision loop runs end to
+**Done: 17 of 17.** Every checklist item is authored. Two questions in `06_effort.md` need Fabián's
+answer before submission, and neither blocks anything else. Optional upside,
+required by no checklist wording: a Portkey dashboard screenshot, and a screen
+recording of the gate being clicked.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
@@ -149,6 +151,6 @@ Measured from session start, not estimated afterwards. Written as sessions end,
 because a number written mid-session and never revised is the exact failure this
 file exists to prevent.
 
-| Session | Date | Hours | What |
-|---|---|---|---|
-| 1 | 2026-08-28 | in progress | Handoff review, L1 reuse audit, repo setup, `CLAUDE.md`, `01`–`05`, 20-lead set, Python 3.11, scaffolding, Phase 1 |
+Superseded by `docs/06_effort.md`, which measures from commit timestamps rather
+than from memory. Summary: 11h12 elapsed on 2026-08-28, ≈6h24 measured working
+time, plus 2–3h of design conversation predating this repository.
