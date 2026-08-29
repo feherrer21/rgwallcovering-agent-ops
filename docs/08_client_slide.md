@@ -77,5 +77,23 @@ inbox, and the storage moves somewhere that survives a restart.
 
 ---
 
+### What comes next, and what it is not yet
+
+Your website assistant already captures enquiries. This assistant works the
+queue they land in. **They are not yet joined up:** today an enquiry moves from
+one to the other by hand.
+
+Connecting them is deliberately outside what was built here — but it is a
+straightforward piece of engineering, not a research problem, and it is the
+obvious next step. Joined up, the path runs end to end without anyone
+re-typing: a visitor asks, the enquiry is captured, the queue picks it up the
+same evening, and you approve what goes out.
+
+Said plainly because the difference matters: what you can watch today is the
+second half working on its own. The first half already works on its own. The
+join is a promise, not a demonstration.
+
+---
+
 **The ask:** twenty minutes to watch it work through your last four enquiries,
 and your judgement on whether the messages sound like your business.
