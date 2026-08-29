@@ -19,9 +19,8 @@ Before building I committed to a falsifier: a deterministic four-branch script
 runs the same evaluation, and **if the agent agrees with it on 90% or more of
 leads, the agent did not earn its place and this document says so.**
 
-It agreed on **64%** of the design set and **33%** of the holdout: convergence
-where the script's branches were written against the cases, divergence on unseen
-data.
+It agreed on **64%** of the design set and **33%** of the holdout — converging
+where the script's branches had the cases in view, diverging on unseen data.
 
 But agreement is not accuracy. **The script scored 13/14 against the agent's
 12/14.** It is more accurate, and it can be steered by anything a stranger types
@@ -42,9 +41,9 @@ that escalates everything. It caught mine.
 **My fix made it worse.** A prompt instruction separating "unverified" from "not
 yours to decide" took correct from 12/14 to 11/14 and unstable leads from 0 to 2.
 Three leads moved, none to the right answer, and `L14` — previously right — began
-acting on a scope it hadn't resolved. I reverted rather than iterate: fourteen
-leads is small enough that more attempts would produce a prompt fitted to
-fourteen cases, and the holdout would then measure the fit, not the system.
+acting on a scope it hadn't resolved. I reverted rather than iterate: more
+attempts would produce a prompt fitted to fourteen cases, and the holdout would
+then measure the fit, not the system.
 
 **Three failures were mine, and two nearly shipped as findings about the model.**
 
@@ -62,7 +61,7 @@ my bug.** A test asserting every `tool_call` has a matching response found a
 second instance I'd missed; with both fixed, four runs agreed.
 
 And my evaluation could not score its own zero-tolerance criterion: the runner
-never saved draft bodies, so S1 had only a boolean to work from.
+never saved draft bodies, so S1 had only a boolean.
 
 **My failure injection was defeated.** `L20` carries a reserved-TLD recipient so
 approving would produce a real SMTP rejection. The agent recognised the
