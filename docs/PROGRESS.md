@@ -36,7 +36,8 @@ code.
 | `32f6309` | Phase 4: durable memory |
 | `5ce2485` | Phase 5: failure handling |
 | `626606d` | Phase 6 + 8: evaluation, baseline, async suite |
-| _this_ | Phase 9: holdout run, and a reverted prompt fix |
+| `96cb39f` | Phase 9: holdout run, and a reverted prompt fix |
+| _this_ | REFLECTION.md, client slide, the Streamlit queue |
 
 ## Submission checklist coverage
 
@@ -74,12 +75,13 @@ Status is against the real checklist, not against phases.
 
 | Item | Status | Where |
 |---|---|---|
-| `REFLECTION.md`, 600–1000 words | not started | — |
-| One client-facing slide | not started | — |
+| `REFLECTION.md`, 600–1000 words | **done** | 997 words. The failure sections are the longest, including three failures that were mine |
+| One client-facing slide | **done** | `docs/08_client_slide.md`. No credentials anywhere on it |
 | Demo: normal run + failure handled | not started | — |
 | Declared-effort statement | not started | effort log below |
 
-**Done: 15 of 17.** What remains: observability evidence from the Portkey dashboard (needs a screenshot only Fabián can take), and the four Communicate items.  The decision loop runs end to
+**Done: 17 of 17 authored; 2 need Fabián.** Outstanding, and both need Fabián rather than more code: a screenshot of the
+Portkey dashboard for the observability item, and the demo recording.  The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
