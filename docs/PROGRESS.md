@@ -117,9 +117,16 @@ Two dated reminders rather than blockers:
 2. **`primary` is off limits, permanently.** It holds real appointments, six of
    them with real third-party attendees who never consented to their details
    passing through an AI gateway. The agent reads only the dedicated calendar.
-3. **If the app is deployed, two properties stop holding.** Both were named in
-   the spec before anyone tried, and neither is a defect introduced by
-   deploying — they are what the environment costs:
+3. **The app is deployed, and two properties stop holding there.** It runs at
+   `rgwallcovering-agent-ops.streamlit.app` (Streamlit Cloud, free tier, so it
+   sleeps when idle — open it once before any demo). An anonymous fetch of that
+   URL returns a `303` into Streamlit's own cookie handshake, which could not be
+   followed without a browser, so **reachability for a logged-out visitor is
+   unverified from here** — the same shape of failure that had L1's evaluator
+   land on a `303` (`03_spec.md` §12.4). Check it in a private window.
+
+   Both properties below were named in the spec before anyone tried, and neither
+   is a defect introduced by deploying — they are what the environment costs:
    - **The durable gate does not survive the host** (`03_spec.md` §7.3). An
      ephemeral filesystem discards the checkpoint database and the action ledger
      on redeploy or sleep, so an approval does not survive a restart. That is
@@ -150,6 +157,29 @@ only.
 (none blocking.)
 
 ## Closed since the handoff
+
+- **The app's access code goes on the submission deck** — decided by Fabián on
+  2026-08-31, against the recommendation recorded here, and the trade-off is
+  named rather than smoothed over. In favour: the validator can open the queue
+  and see the gate operate instead of reading a transcript of it. Against: the
+  L1 submission was docked a point for exactly this, and `criteria_checklist.md`
+  requires no live app and no credentials — it mentions access, credentials and
+  URLs zero times, and the demo item accepts a transcript, which is what
+  `09_demo.md` already is. So the point is spent for reviewer convenience, not
+  to satisfy a requirement.
+
+  What bounds the exposure: every lead in the deployed set is a synthetic persona
+  on a reserved domain (`example.com` / `example.invalid`) with a reserved
+  `555-01xx` number, so an approved send reaches nobody. What is genuinely
+  exposed is the metered gateway budget (bounded by the 12-calls-per-lead cap and
+  by work only starting on a button press), the dedicated calendar, and
+  escalation mail to a real address. **No real customer data.**
+
+  Outstanding: the code in use is the one already published in the L1 deck.
+  Rotating it costs one edit to the platform secret and a rebuild, and would
+  remove the already-circulating-credential problem without reversing this
+  decision. `03_spec.md` §12 is unaffected — it promises no credential in the
+  repository, in a screenshot, or on the client slide, and all three still hold.
 
 - **The gateway key in the hosting secret store** — decided: same mechanism the
   L1 deployment used and the same one the setup guide recommends over committing

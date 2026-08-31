@@ -124,9 +124,11 @@ default and a test asserts that.
 
 ### Deploying it, and what that costs
 
-The app is not part of what is graded — the demo deliverable is a transcript
-([`docs/09_demo.md`](docs/09_demo.md)), so nothing scored depends on a live URL.
-If you deploy it anyway, three things are worth knowing in advance.
+It runs at **`rgwallcovering-agent-ops.streamlit.app`** (Streamlit Cloud, free
+tier — it sleeps when idle, so open it once before showing it to anyone). The app
+is not part of what is graded: the demo deliverable is a transcript
+([`docs/09_demo.md`](docs/09_demo.md)), so nothing scored depends on that URL
+being up. Three things are worth knowing about deploying it.
 
 `app/main.py` runs both as `python -m streamlit run app/main.py` and when a
 platform executes the file directly; it did not always, and the fix is the

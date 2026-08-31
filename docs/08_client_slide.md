@@ -1,8 +1,13 @@
 # Client slide — one slide, for Ronald Giraldo
 
-> Addressed to the business owner, not to an engineer. No credentials appear
-> here, in the deck, or in any screenshot — the L1 submission lost a point for a
-> password pasted into a slide, and that is a cheap mistake to decline twice.
+> Addressed to the business owner, not to an engineer. No credential appears on
+> this slide or in any screenshot.
+>
+> The submission deck is a separate artifact and **does** carry the app's access
+> code, on its Evidence & Artifacts slide, so the validator can open the queue
+> and see the gate for themselves. That is a deliberate decision recorded in
+> `PROGRESS.md`, not an oversight — and it is the one thing the L1 submission was
+> docked a point for, which is why it is written down rather than left implicit.
 
 ---
 
