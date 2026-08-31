@@ -8,14 +8,25 @@ que la aplicación aporta al sistema y que el sistema no puede hacer solo.
 """
 
 import hmac
+import sys
 import uuid
+from pathlib import Path
 
 import streamlit as st
 from langgraph.types import Command
 
-from agente import grafo, leads, persistencia
-from agente.config import ajustes
-from agente.traza import Traza
+# Streamlit Cloud ejecuta este fichero directamente, así que `sys.path[0]` es
+# `app/` y no la raíz del repositorio: `agente` no sería importable. En local no
+# se nota, porque `python -m streamlit` mete el directorio de trabajo en la
+# ruta. Insertar la raíz aquí arriba es lo único que hace falta y sirve en los
+# dos sitios. Va antes de los imports del proyecto a propósito.
+RAIZ = Path(__file__).resolve().parent.parent
+if str(RAIZ) not in sys.path:
+    sys.path.insert(0, str(RAIZ))
+
+from agente import grafo, leads, persistencia  # noqa: E402
+from agente.config import ajustes  # noqa: E402
+from agente.traza import Traza  # noqa: E402
 
 st.set_page_config(page_title="RG Wallcovering — follow-up queue", page_icon="📋")
 
