@@ -23,7 +23,7 @@ If you are evaluating this, three files carry most of it:
 | [`REFLECTION.md`](REFLECTION.md) | What was built, what failed, what I would do differently. 998 words. |
 | [`docs/09_demo.md`](docs/09_demo.md) | The demo: a normal run and a failure being handled, as real transcript output. |
 | [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) | Everything it gets wrong, in one place, with mechanisms. |
-| [`docs/evidence/`](docs/evidence/) | Ten notes behind that analysis. Four document defects that were mine, not the model's. |
+| [`docs/evidence/`](docs/evidence/) | Eleven notes behind that analysis. Five document defects that were mine, not the model's. |
 
 ## The headline result, stated plainly
 
@@ -71,7 +71,7 @@ a completely clean lead over a date ambiguous by a year (`evidence/06` §3).
 | Item | Where |
 |---|---|
 | Evaluation against defined criteria | [`eval/rubric.md`](eval/rubric.md) (written before the first run), results in [`eval/results/`](eval/results/) |
-| Cases it gets wrong, ≥2 mechanistic | [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) — consolidated, with `evidence/00`–`09` behind it |
+| Cases it gets wrong, ≥2 mechanistic | [`docs/07_failure_analysis.md`](docs/07_failure_analysis.md) — consolidated, with `evidence/00`–`10` behind it |
 | Deliberate failure injection | [`evidence/03`](docs/evidence/03_inyeccion_de_fallo.md) — the *planned* one was defeated by the agent and replaced |
 | `pytest-asyncio` suite, passing output | [`tests/test_async.py`](tests/test_async.py); captured output in [`evidence/07`](docs/evidence/07_suite_tests.md) |
 | Observability evidence | [`evidence/08`](docs/evidence/08_observabilidad.md) — curated traces plus measured cost and latency |
@@ -107,7 +107,7 @@ python -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements.txt
 
 .venv/Scripts/python.exe -m scripts.verificar_gateway      # check access, list models
-.venv/Scripts/python.exe -m pytest tests/ -q               # 81 tests, no model calls
+.venv/Scripts/python.exe -m pytest tests/ -q               # 82 tests, no model calls
 .venv/Scripts/python.exe -m streamlit run app/main.py      # the queue Ronald uses
 ```
 
@@ -156,7 +156,7 @@ spec before anyone tried:
 agente/      the agent. Imports no web framework.
 app/         Streamlit UI. Imports agente/, never the reverse.
 eval/        runner, deterministic baseline, rubric, the 20-lead set, results
-tests/       81 tests, including an async suite and a process-boundary test
+tests/       82 tests, including an async suite and a process-boundary test
 scripts/     gateway check, Calendar OAuth, calendar seeding
 docs/        specs, evidence, the client slide, the demo
 ```

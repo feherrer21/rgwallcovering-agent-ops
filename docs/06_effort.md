@@ -59,10 +59,10 @@ Line counts are a poor proxy for effort and are given only to show the shape:
 
 | Area | Lines | Notes |
 |---|---|---|
-| `docs/` (specs + evidence) | 2,765 | Ten evidence notes, four of which record my own errors |
+| `docs/` (specs + evidence) | 2,765 | Eleven evidence notes as of today, five of which record my own errors — one added 2026-08-31, see below |
 | `agente/` | 2,469 | Graph, tools, state, validation, persistence, escalation |
 | `eval/` | 1,494 | Runner, baseline, label normalisation, rubric, results |
-| `tests/` | 1,150 | 81 tests, including the async suite |
+| `tests/` | 1,150 | 82 tests, including the async suite |
 | `scripts/` | 433 | Gateway check, OAuth, calendar seeding, process-boundary helper |
 
 The single largest consumer of time was not building. It was **finding and
@@ -115,6 +115,20 @@ wasted — the negative result is in `evidence/05` and it is what identified the
 real cause as architectural — but if I had reasoned about the action space
 first, I would have reached "this is not a prompt problem" without spending a
 run to find out.
+
+## Since the handoff: 2026-08-31, a later session
+
+Same day as the deployment attempt and the Portkey dashboard capture above,
+but a separate pass: working `L19` on the deployed queue crashed instead of
+escalating, root-caused to the model call itself having no failure handling
+(`evidence/10`, `07_failure_analysis.md` M5 — the fifth defect that was mine,
+not the model's). Found, fixed, tested and documented in one sitting.
+
+Same discipline as items 1 and 2 above: dated rather than folded in, and **not
+in the 13h15–14h15 total**, which stays measured from commit timestamps on
+2026-08-28. Reopening a confirmed total for work done three days later would
+make it mean something else — the same reasoning already applied twice in
+this document, applied a third time rather than made an exception of.
 
 ## Outstanding
 
