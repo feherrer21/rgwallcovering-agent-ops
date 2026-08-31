@@ -77,9 +77,23 @@ written up rather than quietly fixed.
 Decided in advance in `04_plan.md`, and the order held:
 
 1. **The Streamlit deployment.** The app is written (`app/main.py`) and runs
-   locally; it is not deployed. The graded demo is a transcript (`09_demo.md`),
-   so nothing scored depends on a live URL, and a live free-tier app was a
-   liability in L1 rather than an asset.
+   locally. The graded demo is a transcript (`09_demo.md`), so nothing scored
+   depends on a live URL, and a live free-tier app was a liability in L1 rather
+   than an asset.
+
+   ~~It is not deployed.~~ **A deployment was attempted on 2026-08-31**, after
+   the submission was otherwise complete and as upside rather than to close a
+   gap. It earned its keep by failing: the entrypoint resolved `agente` only
+   when launched as `python -m streamlit` from the repository root, so a
+   platform that runs the file directly could not import it at all. One
+   invocation habit had hidden it for the whole build. Fixed in `809960f`.
+
+   Whether a deployment is live is deliberately **not** claimed here. What is
+   recorded is that two properties this spec argues for do not survive an
+   ephemeral-filesystem host, both named before the attempt: the durable gate
+   (`03_spec.md` §7.3) and the deployment's inability to re-authorise Calendar
+   (`03_spec.md` §12.3). Like (2), this is not in the total above — that figure
+   is measured from commit timestamps on 2026-08-28.
 2. **The Portkey dashboard screenshot.** ~~Cost and latency are computed from
    traces instead.~~ **Supplied after the fact on 2026-08-31** and reconciled
    against the traces in `evidence/08`. It cost about twenty minutes, all of it

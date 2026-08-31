@@ -3,7 +3,7 @@
 Updated as work happens, not at phase boundaries. The coverage table is the
 honest answer to "how much is left", because it is what is actually graded.
 
-**Last updated:** 2026-08-28
+**Last updated:** 2026-08-31
 
 ---
 
@@ -43,7 +43,10 @@ code.
 | `cfad700` | Declared-effort statement |
 | `16654c3` | Effort total confirmed at 13h15–14h15 |
 | `7bfd380` | README |
-| _this_ | Final review: consolidated failure analysis, three corrections |
+| `9f3a424` | Final review: consolidated failure analysis, three corrections |
+| `f5fd8f8`…`9e4b6d2` | Reflection back inside the word limit; model-comparison claim narrowed to n=14; four corrections to the client slide |
+| `1f83dab` | Portkey dashboard captured (2026-08-31) and reconciled against the traces |
+| `809960f` | Entrypoint importable when run directly — found by attempting to deploy |
 
 ## Submission checklist coverage
 
@@ -86,9 +89,12 @@ Status is against the real checklist, not against phases.
 | Demo: normal run + failure handled | **done** | `docs/09_demo.md`, a transcript of both scenes. L2 names no medium and L1 accepted "recording or transcript"; a recording is optional upside |
 | Declared-effort statement | **done** | `docs/06_effort.md`. Measured from commit timestamps, with the two gaps named and one flagged for Fabián to confirm |
 
-**Done: 17 of 17.** Every checklist item is authored and the effort total is confirmed at
-13h15–14h15. Optional upside, required by no checklist wording: a Portkey
-dashboard screenshot, and a screen recording of the gate being clicked.  The decision loop runs end to
+**Done: 17 of 17.** Every checklist item is authored and the effort total is
+confirmed at 13h15–14h15. The Portkey dashboard was supplied on 2026-08-31 and
+reconciled against the traces, so the one piece of optional upside still
+outstanding is a screen recording of the gate being clicked — required by no
+checklist wording, and the only thing it adds over the transcript is a person
+visibly clicking approve. The decision loop runs end to
 end on real leads: `L01` and `L02` detect the false free-visit promise, quote
 both sides and escalate — on the cheap model. Two findings are recorded in
 `docs/evidence/`, and the second one corrected a mistake of mine rather than
@@ -111,6 +117,22 @@ Two dated reminders rather than blockers:
 2. **`primary` is off limits, permanently.** It holds real appointments, six of
    them with real third-party attendees who never consented to their details
    passing through an AI gateway. The agent reads only the dedicated calendar.
+3. **If the app is deployed, two properties stop holding.** Both were named in
+   the spec before anyone tried, and neither is a defect introduced by
+   deploying — they are what the environment costs:
+   - **The durable gate does not survive the host** (`03_spec.md` §7.3). An
+     ephemeral filesystem discards the checkpoint database and the action ledger
+     on redeploy or sleep, so an approval does not survive a restart. That is
+     precisely the property `SqliteSaver` was chosen for, and it is what
+     evidences S2. The process-kill test still proves it locally; a deployed URL
+     does not.
+   - **The deployment cannot re-authorise Calendar** (`03_spec.md` §12.3). The
+     OAuth client is Desktop by design, so recovery means re-running
+     `scripts/autorizar_calendario.py` on a machine with a browser and updating
+     the secret by hand.
+
+   Neither blocks the submission: nothing graded depends on a live URL, and the
+   demo deliverable is a transcript (`09_demo.md`).
 
 **Budget:** $50 USD across the whole learning path, metered by Portkey. A reset
 needs a support ticket with line-manager approval, so iteration runs on the

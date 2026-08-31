@@ -122,6 +122,32 @@ INYECTAR_FALLO=correo:1 .venv/Scripts/python.exe -m eval.run --set diseno
 approval — a point the model cannot inspect its way around. It is off by
 default and a test asserts that.
 
+### Deploying it, and what that costs
+
+The app is not part of what is graded — the demo deliverable is a transcript
+([`docs/09_demo.md`](docs/09_demo.md)), so nothing scored depends on a live URL.
+If you deploy it anyway, three things are worth knowing in advance.
+
+`app/main.py` runs both as `python -m streamlit run app/main.py` and when a
+platform executes the file directly; it did not always, and the fix is the
+`sys.path` insert at the top of the file. All ten variables in
+[`.env.example`](.env.example) become secrets in the platform's store, never
+committed. Without `APP_PASSWORD` the app refuses to serve at all, deliberately.
+
+Two properties do **not** survive an ephemeral-filesystem host, both named in the
+spec before anyone tried:
+
+- **The durable gate.** The checkpoint database and the action ledger are
+  discarded on redeploy or sleep, so an approval does not survive a restart —
+  the exact property `SqliteSaver` was chosen for, and what evidences S2
+  ([`03_spec.md`](docs/03_spec.md) §7.3). It holds locally, where a test proves
+  it by killing the process between preparing and approving.
+- **Calendar re-authorisation.** The OAuth client is Desktop by design, so the
+  deployment performs no consent flow: recovery means re-running
+  `scripts/autorizar_calendario.py` on a machine with a browser and updating the
+  secret by hand ([`03_spec.md`](docs/03_spec.md) §12.3). Refresh tokens for an
+  app left in Testing expire after seven days.
+
 ## Layout
 
 ```
