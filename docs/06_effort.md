@@ -80,9 +80,12 @@ Decided in advance in `04_plan.md`, and the order held:
    locally; it is not deployed. The graded demo is a transcript (`09_demo.md`),
    so nothing scored depends on a live URL, and a live free-tier app was a
    liability in L1 rather than an asset.
-2. **The Portkey dashboard screenshot.** Cost and latency are computed from
-   traces instead. The checklist accepts "Portkey traces… **or equivalent**";
-   the dashboard is stronger and is one SSO login away, but it is not required.
+2. **The Portkey dashboard screenshot.** ~~Cost and latency are computed from
+   traces instead.~~ **Supplied after the fact on 2026-08-31** and reconciled
+   against the traces in `evidence/08`. It cost about twenty minutes, all of it
+   reconciliation rather than capture, and it is *not* in the total above:
+   that figure is measured from commit timestamps on 2026-08-28, and reopening
+   it for work done three days later would make it mean something else.
 3. **A screen recording.** Same reasoning as (1). It would add one thing text
    cannot — a person visibly clicking approve — and that is upside, not a gap.
 

@@ -75,7 +75,7 @@ Status is against the real checklist, not against phases.
 | Cases it gets wrong, ≥2 mechanistic | **done** | Over-escalation explained mechanistically and shown to generalise to unseen leads including a clean control (`evidence/04`, `06`); plus `00`, `02`, `03`, and a fix that was measured and reverted (`05`) |
 | Deliberate failure injection | **done** | `INYECTAR_FALLO`; the planned one was defeated by the agent and replaced — `evidence/03` |
 | `pytest-asyncio` suite, passing output | **done** | `tests/test_async.py`, 7 async tests over the loop, tool mocking and the recovery path |
-| Observability evidence | **done** | `evidence/08` — two curated traces plus measured cost and latency. A Portkey dashboard screenshot is optional upside |
+| Observability evidence | **done** | `evidence/08` — two curated traces, measured cost and latency, and the Portkey dashboard itself (captured 2026-08-31), reconciled against the traces line by line |
 
 ### Communicate
 
