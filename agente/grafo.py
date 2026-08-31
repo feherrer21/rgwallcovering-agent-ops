@@ -16,6 +16,7 @@ comprueban en vez de que la prosa los prometa:
 import logging
 from datetime import datetime
 
+import openai
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import END, StateGraph
 from langgraph.types import interrupt
@@ -82,7 +83,28 @@ def construir(llm=None, traza: Traza | None = None, checkpointer=None):
                 ),
             }
 
-        respuesta: AIMessage = con_decision.invoke(estado.mensajes)
+        try:
+            respuesta: AIMessage = con_decision.invoke(estado.mensajes)
+        except openai.APIError as exc:
+            # El cliente es siempre ChatOpenAI (agente/modelo.py): el proveedor
+            # real cambia por config, no por rama de código, así que cualquier
+            # fallo del gateway llega tipado como error del SDK de openai, sea
+            # cual sea el modelo detrás. Sin esto, un 4xx/5xx del gateway
+            # (cuota agotada, policy de Portkey, rate limit) tumbaba la corrida
+            # entera con un traceback crudo en vez de escalar (medido en vivo,
+            # 2026-08-31: `usage_limits_policy_exhaust_error`, ver
+            # docs/evidence/10_fallo_del_gateway.md).
+            motivo = f"model gateway call failed: {type(exc).__name__}: {exc}"
+            tz.fallo("decidir", motivo)
+            return {
+                "fallos": [Fallo("modelo", motivo, estado.llamadas + 1)],
+                "llamadas": estado.llamadas + 1,
+                "accion": Accion.ESCALAR_A_RONALD,
+                "motivo": (
+                    "The model gateway rejected or failed the call before a "
+                    f"decision could be made. {motivo}"
+                ),
+            }
         uso = getattr(respuesta, "usage_metadata", None) or {}
 
         for llamada in respuesta.tool_calls:

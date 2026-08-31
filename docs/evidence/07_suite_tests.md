@@ -1,8 +1,13 @@
 # Test suite — captured output
 
-**Date:** 2026-08-28  ·  `.venv/Scripts/python.exe -m pytest tests/ -v`
+**Date:** 2026-08-31 (re-captured; 78 tests on 2026-08-28, +4 since —
+`test_una_cita_a_un_fragmento_inexistente_se_rechaza`,
+`test_citar_nada_es_valido` and `test_el_modelo_ve_el_chunk_id_que_se_le_pide_citar`
+from the fabricated-citations fix (`evidence/09`), plus
+`test_fallo_del_gateway_escala_en_vez_de_crashear` from the gateway-failure fix
+(`evidence/10`)) · `.venv/Scripts/python.exe -m pytest tests/ -v`
 
-78 tests. None calls the model or reaches an external service except the
+82 tests. None calls the model or reaches an external service except the
 process-boundary test, which spawns real subprocesses on purpose: what it
 checks is that state survives a process dying, and that cannot be mocked.
 
@@ -14,7 +19,7 @@ rootdir: C:\Proyectos\AI\rgwallcovering-agent-ops
 configfile: pytest.ini
 plugins: anyio-4.14.2, langsmith-0.11.2, asyncio-1.4.0
 asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collecting ... collected 78 items
+collecting ... collected 82 items
 
 tests/test_async.py::test_el_bucle_decide_de_forma_asincrona PASSED      [  1%]
 tests/test_async.py::test_la_herramienta_se_ejecuta_y_su_salida_vuelve_al_modelo PASSED [  2%]
@@ -51,49 +56,53 @@ tests/test_fallos.py::test_eventos_imposibles_se_rechazan[2026-09-01T08:00:00-20
 tests/test_fallos.py::test_el_motivo_sirve_para_corregir_no_solo_para_diagnosticar PASSED [ 42%]
 tests/test_fallos.py::test_el_reintento_lleva_el_motivo_exacto PASSED    [ 43%]
 tests/test_fallos.py::test_nada_llego_al_cliente_se_dice_en_el_reintento PASSED [ 44%]
-tests/test_fallos.py::test_agotar_el_presupuesto_escala_en_vez_de_girar PASSED [ 46%]
-tests/test_fallos.py::test_la_escalacion_lleva_todos_los_motivos_no_el_ultimo PASSED [ 47%]
-tests/test_fallos.py::test_la_escalacion_dice_que_no_se_envio_nada PASSED [ 48%]
-tests/test_fallos.py::test_la_escalacion_sin_canal_lo_dice PASSED        [ 50%]
-tests/test_fallos.py::test_la_escalacion_solo_cita_fuentes_que_respaldan PASSED [ 51%]
-tests/test_fallos.py::test_la_inyeccion_esta_apagada_por_defecto PASSED  [ 52%]
-tests/test_fallos.py::test_la_inyeccion_falla_solo_las_veces_pedidas PASSED [ 53%]
-tests/test_fallos.py::test_el_motivo_inyectado_se_declara_como_tal PASSED [ 55%]
-tests/test_fallos.py::test_el_reintento_dice_donde_fallo_no_solo_que_fallo PASSED [ 56%]
-tests/test_gate.py::test_ejecutar_irreversible_tiene_exactamente_una_arista_de_entrada PASSED [ 57%]
-tests/test_gate.py::test_ningun_nodo_salvo_el_gate_alcanza_el_envio PASSED [ 58%]
-tests/test_gate.py::test_el_nodo_irreversible_se_niega_sin_aprobacion PASSED [ 60%]
-tests/test_gate.py::test_el_grafo_se_detiene_en_el_gate_y_muestra_la_propuesta PASSED [ 61%]
-tests/test_gate.py::test_aprobar_ejecuta_y_deja_registro PASSED          [ 62%]
-tests/test_gate.py::test_rechazar_no_envia_y_realimenta_el_motivo PASSED [ 64%]
-tests/test_gate.py::test_lo_editado_es_lo_que_se_ejecuta PASSED          [ 65%]
-tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[] PASSED [ 66%]
-tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[   ] PASSED [ 67%]
-tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[j.torres@gmailcom] PASSED [ 69%]
-tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[sin-arroba] PASSED [ 70%]
-tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[a@b] PASSED [ 71%]
-tests/test_gate.py::test_el_motivo_del_rechazo_dice_por_que_no_se_corrige PASSED [ 73%]
-tests/test_gate.py::test_cuerpo_vacio_no_se_envia PASSED                 [ 74%]
-tests/test_gate.py::test_la_decision_deja_el_historial_bien_formado PASSED [ 75%]
-tests/test_grafo.py::test_decide_sin_buscar_cuando_no_hace_falta PASSED  [ 76%]
-tests/test_grafo.py::test_busca_y_luego_decide PASSED                    [ 78%]
-tests/test_grafo.py::test_la_prosa_suelta_no_cuenta_como_decision PASSED [ 79%]
-tests/test_grafo.py::test_el_tope_de_llamadas_escala_en_vez_de_gastar PASSED [ 80%]
+tests/test_fallos.py::test_agotar_el_presupuesto_escala_en_vez_de_girar PASSED [ 43%]
+tests/test_fallos.py::test_fallo_del_gateway_escala_en_vez_de_crashear PASSED [ 45%]
+tests/test_fallos.py::test_la_escalacion_lleva_todos_los_motivos_no_el_ultimo PASSED [ 46%]
+tests/test_fallos.py::test_la_escalacion_dice_que_no_se_envio_nada PASSED [ 47%]
+tests/test_fallos.py::test_la_escalacion_sin_canal_lo_dice PASSED        [ 48%]
+tests/test_fallos.py::test_la_escalacion_solo_cita_fuentes_que_respaldan PASSED [ 50%]
+tests/test_fallos.py::test_la_inyeccion_esta_apagada_por_defecto PASSED  [ 51%]
+tests/test_fallos.py::test_la_inyeccion_falla_solo_las_veces_pedidas PASSED [ 52%]
+tests/test_fallos.py::test_el_motivo_inyectado_se_declara_como_tal PASSED [ 53%]
+tests/test_fallos.py::test_el_reintento_dice_donde_fallo_no_solo_que_fallo PASSED [ 54%]
+tests/test_fallos.py::test_una_cita_a_un_fragmento_inexistente_se_rechaza PASSED [ 56%]
+tests/test_fallos.py::test_citar_nada_es_valido PASSED                   [ 57%]
+tests/test_fallos.py::test_el_modelo_ve_el_chunk_id_que_se_le_pide_citar PASSED [ 58%]
+tests/test_gate.py::test_ejecutar_irreversible_tiene_exactamente_una_arista_de_entrada PASSED [ 59%]
+tests/test_gate.py::test_ningun_nodo_salvo_el_gate_alcanza_el_envio PASSED [ 60%]
+tests/test_gate.py::test_el_nodo_irreversible_se_niega_sin_aprobacion PASSED [ 62%]
+tests/test_gate.py::test_el_grafo_se_detiene_en_el_gate_y_muestra_la_propuesta PASSED [ 63%]
+tests/test_gate.py::test_aprobar_ejecuta_y_deja_registro PASSED          [ 64%]
+tests/test_gate.py::test_rechazar_no_envia_y_realimenta_el_motivo PASSED [ 65%]
+tests/test_gate.py::test_lo_editado_es_lo_que_se_ejecuta PASSED          [ 67%]
+tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[] PASSED [ 68%]
+tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[   ] PASSED [ 69%]
+tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[j.torres@gmailcom] PASSED [ 70%]
+tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[sin-arroba] PASSED [ 71%]
+tests/test_gate.py::test_direcciones_invalidas_se_rechazan_antes_de_conectar[a@b] PASSED [ 73%]
+tests/test_gate.py::test_el_motivo_del_rechazo_dice_por_que_no_se_corrige PASSED [ 74%]
+tests/test_gate.py::test_cuerpo_vacio_no_se_envia PASSED                 [ 75%]
+tests/test_gate.py::test_la_decision_deja_el_historial_bien_formado PASSED [ 76%]
+tests/test_grafo.py::test_decide_sin_buscar_cuando_no_hace_falta PASSED  [ 78%]
+tests/test_grafo.py::test_busca_y_luego_decide PASSED                    [ 79%]
+tests/test_grafo.py::test_la_prosa_suelta_no_cuenta_como_decision PASSED [ 80%]
+tests/test_grafo.py::test_el_tope_de_llamadas_escala_en_vez_de_gastar PASSED [ 81%]
 tests/test_grafo.py::test_la_traza_registra_la_decision_y_su_motivo PASSED [ 82%]
-tests/test_grafo.py::test_las_etiquetas_no_entran_en_el_estado PASSED    [ 83%]
-tests/test_memoria.py::test_la_aprobacion_sobrevive_a_la_muerte_del_proceso PASSED [ 84%]
-tests/test_memoria.py::test_un_hilo_desconocido_no_ejecuta_nada PASSED   [ 85%]
+tests/test_grafo.py::test_las_etiquetas_no_entran_en_el_estado PASSED    [ 84%]
+tests/test_memoria.py::test_la_aprobacion_sobrevive_a_la_muerte_del_proceso PASSED [ 85%]
+tests/test_memoria.py::test_un_hilo_desconocido_no_ejecuta_nada PASSED   [ 86%]
 tests/test_memoria.py::test_el_ledger_acumula_y_no_reescribe PASSED      [ 87%]
-tests/test_memoria.py::test_los_intentos_fallidos_se_cuentan_entre_sesiones PASSED [ 88%]
-tests/test_memoria.py::test_una_linea_corrupta_no_impide_leer_las_demas PASSED [ 89%]
+tests/test_memoria.py::test_los_intentos_fallidos_se_cuentan_entre_sesiones PASSED [ 89%]
+tests/test_memoria.py::test_una_linea_corrupta_no_impide_leer_las_demas PASSED [ 90%]
 tests/test_memoria.py::test_el_ledger_no_guarda_el_cuerpo_del_correo PASSED [ 91%]
 tests/test_memoria.py::test_los_tipos_del_estado_estan_declarados_para_serializar PASSED [ 92%]
 tests/test_tools.py::test_esquema_dice_cuando_no_llamar PASSED           [ 93%]
-tests/test_tools.py::test_esquema_ensena_a_desconfiar_del_registro PASSED [ 94%]
+tests/test_tools.py::test_esquema_ensena_a_desconfiar_del_registro PASSED [ 95%]
 tests/test_tools.py::test_sin_pasajes_no_invita_a_rellenar PASSED        [ 96%]
 tests/test_tools.py::test_los_pasajes_llevan_su_tier_delante PASSED      [ 97%]
 tests/test_tools.py::test_la_salida_se_declara_como_dato PASSED          [ 98%]
 tests/test_tools.py::test_herramienta_desconocida PASSED                 [100%]
 
-============================= 78 passed in 13.30s =============================
+============================= 82 passed in 14.79s =============================
 ```

@@ -68,7 +68,7 @@ Status is against the real checklist, not against phases.
 | At least two tools | **4 of 4 built** | `buscar_corpus`, `leer_calendario` (read); `enviar_correo`, `crear_evento` (gated). All exercised against the real services |
 | Memory component + stated reason | **done** | `SqliteSaver` + per-lead ledger, with the reason argued in `03` §7 and *proved* by killing the process between preparing and approving |
 | Human validation gate | **done** | `gate_humano` as a LangGraph interrupt; one inbound edge to the send node, asserted by test |
-| Failure handling: validate, retry with reason, escalate | **done** | typed contracts before the gate, `recuperar` feeding the verbatim reason back, budget per tool per lead counted across sessions, escalation carrying every attempt |
+| Failure handling: validate, retry with reason, escalate | **done** | typed contracts before the gate, `recuperar` feeding the verbatim reason back, budget per tool per lead counted across sessions, escalation carrying every attempt, and — found live on the deployed queue on 2026-08-31 and closed the same day — the model call itself now escalates on a gateway failure instead of crashing (`evidence/10`) |
 
 ### Prove
 
@@ -157,6 +157,20 @@ only.
 (none blocking.)
 
 ## Closed since the handoff
+
+- **Portkey's $50 per-key budget was exhausted, live, on the deployed demo** —
+  2026-08-31. Working `L19` on the deployed queue crashed with a raw
+  `openai.APIError` traceback instead of escalating, because `decidir`
+  (`agente/grafo.py:85`) had no failure handling around the model call itself —
+  only around the per-lead call-budget guard next to it. Confirmed against the
+  Portkey dashboard: policy `871e10a3-...`, Cost, $50 per `api_key`, **no
+  periodic reset**, this project's key at $50.03/50, `Exhausted`. Resolved by
+  issuing a new key (rotated into `.env` and the Streamlit Cloud secret — the
+  per-`api_key` policy gives it its own fresh budget) and by closing the actual
+  gap: the model call is now wrapped in `except openai.APIError`, escalating to
+  Ronald with the specific reason instead of raising. Full write-up, and why
+  this is not the already-known `L19` finding in `07_failure_analysis.md`, in
+  `evidence/10`. Test: `test_fallo_del_gateway_escala_en_vez_de_crashear`.
 
 - **The app's access code goes on the submission deck** — decided by Fabián on
   2026-08-31, against the recommendation recorded here, and the trade-off is

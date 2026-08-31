@@ -3,9 +3,9 @@
 Everything this system gets wrong, in one place. The detailed write-ups are in
 `docs/evidence/`; this is the index and the argument that connects them.
 
-Ten evidence notes exist. **Four of them describe defects that were mine rather
-than the model's**, and that ratio is the first finding: when an agent behaves
-inexplicably, the contract it was handed is the first place to look.
+Eleven evidence notes exist. **Five of them describe defects that were mine
+rather than the model's**, and that ratio is the first finding: when an agent
+behaves inexplicably, the contract it was handed is the first place to look.
 
 ---
 
@@ -100,6 +100,7 @@ both.
 | **M2** | `decidir` and `preparar` appended assistant messages containing `tool_call`s with no tool result answering them. **I measured the resulting instability and published it as model non-determinism** before a contract test found the real cause. | `evidence/02` |
 | **M3** | The recovery message said "the `correo` step failed" in a pipeline with three stages, so the agent told Ronald an email could not be prepared for approval — when it had been prepared and he had approved it. | `evidence/03` §4 |
 | **M4** | The evaluation runner did not save draft bodies, so S1 — a zero-tolerance criterion — could not be scored on its first run. | `evidence/04` §6 |
+| **M5** | The model call itself (`decidir`, `agente/grafo.py:85`) had no failure handling. A live gateway rejection (Portkey's per-key $50 policy, exhausted) crashed the deployed app with a raw traceback instead of escalating. Found on `L19`, on the deployed queue, not by design. | `evidence/10` |
 
 **M2 is the one worth dwelling on.** A malformed conversation does not raise, does
 not log, and does not fail the same way twice. It degrades behaviour

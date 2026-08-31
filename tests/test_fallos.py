@@ -1,5 +1,7 @@
 """Validacion, reintento con motivo, y escalacion al agotar el presupuesto."""
 
+import httpx
+import openai
 import pytest
 from langchain_core.messages import AIMessage
 
@@ -127,6 +129,38 @@ def test_agotar_el_presupuesto_escala_en_vez_de_girar(monkeypatch):
     assert r["accion"] is Accion.ESCALAR_A_RONALD
     assert "retry budget is spent" in r["motivo"]
     assert not r.get("__interrupt__"), "no debio llegar al gate con un borrador roto"
+
+
+class LLMQueFalla:
+    """Simula que el gateway rechaza la llamada antes de responder nada."""
+
+    def __init__(self, exc):
+        self.exc = exc
+
+    def bind_tools(self, _t):
+        return self
+
+    def invoke(self, _mensajes):
+        raise self.exc
+
+
+def test_fallo_del_gateway_escala_en_vez_de_crashear():
+    """Medido en vivo el 2026-08-31: la policy de presupuesto de Portkey se
+    agoto a mitad de demo y openai.APIError subia sin capturar hasta
+    Streamlit, que mostraba el traceback crudo en la pantalla de Ronald. Ver
+    docs/evidence/10_fallo_del_gateway.md."""
+    exc = openai.APIError(
+        "usage_limits_policy_exhaust_error",
+        request=httpx.Request("POST", "https://portkey.example/v1/chat/completions"),
+        body=None,
+    )
+    app = grafo.construir(llm=LLMQueFalla(exc), traza=Traza())
+    r = app.invoke(_estado(), {"configurable": {"thread_id": "gateway-caido"},
+                               "recursion_limit": 10})
+    assert r["accion"] is Accion.ESCALAR_A_RONALD
+    assert "usage_limits_policy_exhaust_error" in r["motivo"]
+    assert r["fallos"] and r["fallos"][0].herramienta == "modelo"
+    assert not r.get("__interrupt__"), "un fallo del gateway no debio llegar al gate"
 
 
 # --- El paquete de escalacion (T5.4) --------------------------------------
